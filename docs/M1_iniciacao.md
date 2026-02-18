@@ -1,24 +1,27 @@
-# Milestone 1: Iniciação e Definição do Projeto - Grupo 9
+# Milestone 1: Iniciação e Definição do Problema
 
-## 1. Descrição Detalhada do Problema
-O setor das telecomunicações enfrenta taxas de rotatividade (churn) elevadas, o que impacta diretamente a rentabilidade das empresas. Como o custo de adquirir um novo cliente é muito superior ao de reter um atual, este projeto utiliza o dataset "Telco Customer Churn" para prever comportamentos de abandono e permitir que a gestão tome decisões proativas de fidelização.
+## 1. Introdução e Contexto
+O setor das telecomunicações é altamente competitivo. Reter um cliente custa muito menos do que adquirir um novo. Este projeto é relevante porque permite à empresa agir preventivamente sobre clientes em risco de abandono, otimizando as receitas e a satisfação do consumidor.
 
 ## 2. Objetivos SMART
-1. *Objetivo 1 (Técnico):* Desenvolver um modelo de classificação binária para prever o Churn com um *F1-Score mínimo de 0.75*, garantindo equilíbrio entre Precision e Recall.
-2. *Objetivo 2 (Gestão):* Identificar os 3 principais fatores que influenciam a saída dos clientes (ex: tipo de contrato, tempo de permanência ou serviços adicionais) até à Milestone 3.
+* *S (Específico):* Prever se um cliente irá cancelar o serviço (Churn).
+* *M (Mensurável):* Alcançar um *F1-Score mínimo de 0.75*.
+* *A (Atingível):* O dataset possui 21 variáveis e +7000 registos, permitindo modelação sólida.
+* *R (Relevante):* Impacto direto na estratégia de retenção da empresa.
+* *T (Temporal):* Concluir a modelação até ao final da Milestone 3.
 
-## 3. Metodologia de Gestão (PBL)
-* *Divisão de Tarefas:*
-    * *Salvador Cabeças:* Responsável pela Infraestrutura GitHub, Sincronização com Kaggle e Engenharia de Dados.
-    * *Vasco Coelho:* Responsável pela Documentação Técnica (Milestones), Análise Estatística e Modelação.
-* *Ferramentas:* GitHub Projects (Kanban) para gestão de tarefas e Kaggle Notebooks para desenvolvimento em Python.
+## 3. Perguntas de Investigação
+1. Clientes com contratos mensais abandonam mais do que os que têm contratos anuais?
+2. A falta de suporte técnico está correlacionada com um churn mais elevado?
+3. O valor da fatura mensal (MonthlyCharges) é o fator decisivo para a saída do cliente?
 
-## 4. Análise de Viabilidade dos Dados
-* *Disponibilidade:* O dataset foi carregado com sucesso no Kaggle e vinculado ao repositório GitHub.
-* *Qualidade Inicial:* Através da inspeção inicial (df.info()), observou-se que a coluna TotalCharges precisa de tratamento, pois está como texto (object) e contém valores em branco.
-* *Ética:* Os dados são públicos e anonimizados, cumprindo os requisitos de privacidade.
+## 4. Divisão de Papéis (Inicial)
+* *Salvador Cabeças:* Setup de infraestrutura (GitHub/Kaggle) e Processamento de Dados.
+* *Vasco Coelho:* Escrita de Documentação Técnica e Modelação Estatística.
 
-## 5. Perguntas de Investigação
-1. Clientes com contratos mensais ("Month-to-month") têm maior probabilidade de abandono do que clientes com contratos anuais?
-2. O valor da fatura mensal (MonthlyCharges) é um indicador determinante para o churn?
-3. A presença de serviços de suporte técnico e segurança online influencia positivamente a retenção do cliente?
+## 5. Ferramentas e Bibliotecas
+* *Ambiente:* Kaggle e GitHub.
+* *Bibliotecas:* Pandas (manipulação), NumPy (cálculo), Matplotlib/Seaborn (visualização), Scikit-Learn (ML).
+
+---
+Atualizado em: 18/02/2026
