@@ -61,4 +61,4 @@ Após a inspeção inicial realizada no dia 18/02, identificámos as 21 variáve
 * *Bibliotecas:* Pandas (limpeza), NumPy (matemática), Matplotlib/Seaborn (gráficos), Scikit-Learn (Machine Learning).
 
 ---
-Última atualização: 18/02/2026
+Última atualização: 20/02/2026
