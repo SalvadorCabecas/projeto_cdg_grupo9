@@ -49,7 +49,7 @@ Após a inspeção inicial realizada no dia 18/02, identificámos as 21 variáve
 | *PaperlessBilling* | Se utiliza faturação eletrónica (Yes/No). | Categórica |
 | *PaymentMethod* | Método de pagamento (4 categorias). | Categórica |
 | *MonthlyCharges* | Valor da fatura mensal. | Numérica (float64) |
-| *TotalCharges* | Valor total faturado. | *Erro detetado: object (requer limpeza)* |
+| *TotalCharges* | Valor total faturado. | Numérica (float64) |
 | *Churn* | *Variável Alvo*: Indica se o cliente saiu (Yes/No). | Categórica (Target) |
 
 ## 5. Divisão de Papéis (Inicial)
