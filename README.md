@@ -1,23 +1,32 @@
 # 📊 Projeto: Telco Customer Churn - Grupo 9
 
-## 👥 Identificação da Equipa
+## Identificação da Equipa
 * **Instituição:** Coimbra Business School | ISCAC
+* **Curso:** Licenciatura em Ciência de Dados para a Gestão
 * **Unidade Curricular:** Projeto em Ciência de Dados
+* **Grupo nº:** 9
 * **Membros:**
   * **Vasco Firmino Coelho** (2023145934)
   * **José Salvador Cabeças** (2023132088)
 
-## 📝 Resumo do Projeto
-Este projeto visa analisar e prever a rotatividade de clientes (Churn) numa operadora de telecomunicações. Utilizando técnicas de Ciência de Dados, pretendemos identificar os principais fatores que levam à saída de clientes e construir um modelo capaz de prever este comportamento.
+## Organização do Repositório
+* **`data/`**: Dados brutos (`raw/`) e processados (`processed/`).
+* **`docs/`**: Documentação técnica detalhada das Milestones.
+* **`notebooks/`**: Jupyter Notebooks para experimentação (Kaggle).
+* **`src/`**: Scripts Python modulares para funções reutilizáveis.
+* **`reports/`**: Relatórios e figuras exportadas.
 
-## 🔗 Links Úteis
-* **Dataset:** [Telco Customer Churn no Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
-* **Documentação Completa:** Consultar pasta `docs/`
+## 1. Iniciação (Milestone 1)
+### Contexto e Problema de Negócio
+O setor das telecomunicações enfrenta taxas de rotatividade elevadas. Este projeto visa prever o **Churn** (abandono) para permitir ações de retenção proativas, reduzindo custos de aquisição de novos clientes.
 
-## 📁 Estrutura do Repositório
-* `data/`: Dados brutos e processados.
-* `docs/`: Documentação das Milestones (M1 a M4).
-* `notebooks/`: Desenvolvimento do código (Kaggle).
-* `src/`: Scripts Python modulares.
+### Objetivos do Projeto
+* **Objetivo 1:** Desenvolver um modelo preditivo com um **F1-Score mínimo de 0.75**.
+* **Objetivo 2:** Identificar os principais fatores que influenciam a saída dos clientes.
 
-**Docente Responsável:** Dora Melo
+### Fonte de Dados
+* **Dataset:** [Telco Customer Churn (Kaggle)](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+* **Dimensão:** 7043 linhas e 21 colunas.
+
+---
+**Docente Responsável:** Dora Melo (dmelo@iscac.pt)
