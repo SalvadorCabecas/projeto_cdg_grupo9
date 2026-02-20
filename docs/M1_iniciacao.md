@@ -15,27 +15,42 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 2. A falta de suporte técnico (TechSupport) está correlacionada com um churn mais elevado?
 3. O valor da fatura mensal (MonthlyCharges) é o fator decisivo para a saída do cliente?
 
-## 4. Dicionário de Dados e Descrição de Variáveis
-Após a inspeção inicial realizada via Kaggle (18/02), identificámos a seguinte estrutura:
+## 4. Dicionário de Dados Completo (21 Variáveis)
 
-### 4.1. Variáveis Categóricas
-| Variável | Descrição | Observações |
-| :--- | :--- | :--- |
-| *customerID* | ID único do cliente | Identificador alfanumérico. |
-| *gender* | Género | Male / Female. |
-| *SeniorCitizen* | Idoso | Binário (1: Sim, 0: Não). |
-| *Partner / Dependents* | Relações familiares | Se tem parceiro ou dependentes (Yes/No). |
-| *Serviços* | Phone, Internet, Security, etc. | Vários campos Yes/No/No service. |
-| *Contract* | Tipo de contrato | Month-to-month, One year, Two year. |
-| *PaymentMethod* | Método de pagamento | Cartão, Transferência, Electronic check, etc. |
-| *Churn* | *Variável Alvo* | Indica se o cliente saiu (Yes/No). |
+Após a inspeção inicial realizada no dia 18/02, identificámos as 21 variáveis que compõem o dataset "Telco Customer Churn":
 
-### 4.2. Variáveis Numéricas
-| Variável | Descrição | Estatísticas Iniciais |
+### 4.1. Variáveis de Identificação e Demográficas (5)
+| Variável | Descrição | Tipo |
 | :--- | :--- | :--- |
-| *tenure* | Meses na empresa | Média: ~32 meses; Máximo: 72 meses. |
-| *MonthlyCharges* | Fatura mensal | Média: 64.76; Máximo: 118.75. |
-| *TotalCharges* | Fatura total | *Anomalia:* Tipo object. Requer limpeza de espaços vazios. |
+| *customerID* | Identificador único do cliente. | Categórica (ID) |
+| *gender* | Género do cliente (Male/Female). | Categórica |
+| *SeniorCitizen* | Indica se o cliente tem 65 anos ou mais (1: Sim, 0: Não). | Categórica (Binária) |
+| *Partner* | Se o cliente tem parceiro/a (Yes/No). | Categórica |
+| *Dependents* | Se o cliente tem dependentes (Yes/No). | Categórica |
+
+### 4.2. Variáveis de Serviços Subscritos (9)
+| Variável | Descrição | Tipo |
+| :--- | :--- | :--- |
+| *PhoneService* | Se o cliente tem serviço telefónico (Yes/No). | Categórica |
+| *MultipleLines* | Se tem múltiplas linhas (Yes, No, No phone service). | Categórica |
+| *InternetService* | Tipo de internet (DSL, Fiber optic, No). | Categórica |
+| *OnlineSecurity* | Se tem serviço de segurança online (Yes, No, No internet). | Categórica |
+| *OnlineBackup* | Se tem backup online (Yes, No, No internet). | Categórica |
+| *DeviceProtection*| Se tem proteção de dispositivo (Yes, No, No internet). | Categórica |
+| *TechSupport* | Se tem suporte técnico (Yes, No, No internet). | Categórica |
+| *StreamingTV* | Se utiliza streaming de TV (Yes, No, No internet). | Categórica |
+| *StreamingMovies* | Se utiliza streaming de filmes (Yes, No, No internet). | Categórica |
+
+### 4.3. Variáveis Contratuais e Financeiras (7)
+| Variável | Descrição | Tipo / Observação |
+| :--- | :--- | :--- |
+| *tenure* | Meses de permanência na empresa (0 a 72). | Numérica (int64) |
+| *Contract* | Tipo de contrato (Month-to-month, One year, Two year). | Categórica |
+| *PaperlessBilling* | Se utiliza faturação eletrónica (Yes/No). | Categórica |
+| *PaymentMethod* | Método de pagamento (4 categorias). | Categórica |
+| *MonthlyCharges* | Valor da fatura mensal. | Numérica (float64) |
+| *TotalCharges* | Valor total faturado. | *Erro detetado: object (requer limpeza)* |
+| *Churn* | *Variável Alvo*: Indica se o cliente saiu (Yes/No). | Categórica (Target) |
 
 ## 5. Divisão de Papéis (Inicial)
 * *Salvador Cabeças:* Setup de infraestrutura (GitHub/Kaggle) e Engenharia de Dados.
