@@ -28,33 +28,45 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 
 ## 6. Dicionário de Dados Completo (21 Variáveis)
 
-### 6.1. Identificação e Demográficas
-| Variável | Descrição | Tipo |
-| :--- | :--- | :--- |
-| *customerID* | Identificador único do cliente. | ID |
-| *gender* | Género (Male/Female). | Categórica |
-| *SeniorCitizen* | Se o cliente é idoso (1/0). | Binária |
-| *Partner* | Se tem parceiro (Yes/No). | Categórica |
-| *Dependents* | Se tem dependentes (Yes/No). | Categórica |
+## 4. Dicionário de Dados (Data Understanding)
 
-### 6.2. Serviços Subscritos
-| Variável | Descrição |
-| :--- | :--- |
-| *tenure* | Meses na empresa (Numérica). |
-| *PhoneService, MultipleLines* | Serviços de voz. |
-| *InternetService* | DSL, Fiber optic, No. |
-| *OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport* | Serviços de suporte/segurança. |
-| *StreamingTV, StreamingMovies* | Serviços de entretenimento. |
+Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de todas as variáveis. Foi identificada a necessidade de conversão da variável `TotalCharges`, que originalmente é lida como texto (`object`), para um formato numérico (`float64`), garantindo a integridade da análise estatística e a compatibilidade com algoritmos de Machine Learning.
 
-### 6.3. Contratuais e Financeiras
-| Variável | Descrição | Observação |
-| :--- | :--- | :--- |
-| *Contract* | Tipo de contrato. | Month-to-month, 1 yr, 2 yr |
-| *PaperlessBilling*| Fatura digital (Yes/No). | Categórica |
-| *PaymentMethod* | Método de pagamento. | 4 categorias |
-| *MonthlyCharges* | Fatura mensal. | Numérica (float) |
-| *TotalCharges* | Fatura total. | *Requer Limpeza (object)* |
-| *Churn* | *Variável Alvo*. | Yes / No |
+### 4.1. Variáveis Demográficas e de Identificação
+| Variável | Descrição | Tipo | Observação |
+| :--- | :--- | :--- | :--- |
+| **customerID** | Identificador único do cliente | String (ID) | Removido na modelação (não preditivo). |
+| **gender** | Género do cliente | Categórica | Male, Female. |
+| **SeniorCitizen** | Indica se o cliente tem 65 anos ou mais | Binária | 0 (Não), 1 (Sim). |
+| **Partner** | Indica se o cliente tem parceiro(a) | Categórica | Yes, No. |
+| **Dependents** | Indica se o cliente tem dependentes | Categórica | Yes, No. |
 
+### 4.2. Variáveis de Serviços Subscritos
+| Variável | Descrição | Tipo | Observação |
+| :--- | :--- | :--- | :--- |
+| **PhoneService** | Se o cliente tem serviço telefónico | Categórica | Yes, No. |
+| **MultipleLines** | Se o cliente tem múltiplas linhas | Categórica | Yes, No, No phone service. |
+| **InternetService** | Tipo de fornecedor de internet | Categórica | DSL, Fiber optic, No. |
+| **OnlineSecurity** | Se tem serviço de segurança online | Categórica | Yes, No, No internet service. |
+| **OnlineBackup** | Se tem serviço de backup online | Categórica | Yes, No, No internet service. |
+| **DeviceProtection** | Se tem proteção de dispositivo | Categórica | Yes, No, No internet service. |
+| **TechSupport** | Se tem suporte técnico prioritário | Categórica | Yes, No, No internet service. |
+| **StreamingTV** | Se utiliza streaming de TV | Categórica | Yes, No, No internet service. |
+| **StreamingMovies** | Se utiliza streaming de filmes | Categórica | Yes, No, No internet service. |
+
+### 4.3. Variáveis Contratuais e Financeiras
+| Variável | Descrição | Tipo | Observação |
+| :--- | :--- | :--- | :--- |
+| **tenure** | Meses de permanência na empresa | Numérica (int) | Intervalo: 0 a 72 meses. |
+| **Contract** | Prazo do contrato do cliente | Categórica | Month-to-month, One year, Two year. |
+| **PaperlessBilling** | Se utiliza faturação eletrónica | Categórica | Yes, No. |
+| **PaymentMethod** | Método de pagamento escolhido | Categórica | 4 categorias (e.g., Electronic check). |
+| **MonthlyCharges** | Valor debitado mensalmente | Numérica (float) | Valor contínuo. |
+| **TotalCharges** | Valor total faturado ao cliente | Numérica (float) | **Convertido de object para float.** |
+| **Churn** | Indica se o cliente abandonou a empresa | Binária | **Variável Alvo (Target):** Yes, No. |
+
+---
+
+> **Nota Crítica de Qualidade:** A variável `TotalCharges` continha espaços em branco em registos onde `tenure = 0`. Estes foram tratados como valores nulos (`NaN`) durante a conversão e serão devidamente imputados na fase de *Data Preparation* (Milestone 2).
 ---
 Data de última atualização: 20/02/2026
