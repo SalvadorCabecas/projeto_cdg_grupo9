@@ -27,12 +27,9 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 | M4: Finalização| Maio 2026 | Pitch e Relatório Final. |
 
 ## 6. Dicionário de Dados Completo (21 Variáveis)
-
-## 4. Dicionário de Dados (Data Understanding)
-
 Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de todas as variáveis. Foi identificada a necessidade de conversão da variável `TotalCharges`, que originalmente é lida como texto (`object`), para um formato numérico (`float64`), garantindo a integridade da análise estatística e a compatibilidade com algoritmos de Machine Learning.
 
-### 4.1. Variáveis Demográficas e de Identificação
+### 6.1. Variáveis Demográficas e de Identificação
 | Variável | Descrição | Tipo | Observação |
 | :--- | :--- | :--- | :--- |
 | **customerID** | Identificador único do cliente | String (ID) | Removido na modelação (não preditivo). |
@@ -41,7 +38,7 @@ Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de to
 | **Partner** | Indica se o cliente tem parceiro(a) | Categórica | Yes, No. |
 | **Dependents** | Indica se o cliente tem dependentes | Categórica | Yes, No. |
 
-### 4.2. Variáveis de Serviços Subscritos
+### 6.2. Variáveis de Serviços Subscritos
 | Variável | Descrição | Tipo | Observação |
 | :--- | :--- | :--- | :--- |
 | **PhoneService** | Se o cliente tem serviço telefónico | Categórica | Yes, No. |
@@ -54,7 +51,7 @@ Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de to
 | **StreamingTV** | Se utiliza streaming de TV | Categórica | Yes, No, No internet service. |
 | **StreamingMovies** | Se utiliza streaming de filmes | Categórica | Yes, No, No internet service. |
 
-### 4.3. Variáveis Contratuais e Financeiras
+### 6.3. Variáveis Contratuais e Financeiras
 | Variável | Descrição | Tipo | Observação |
 | :--- | :--- | :--- | :--- |
 | **tenure** | Meses de permanência na empresa | Numérica (int) | Intervalo: 0 a 72 meses. |
@@ -69,4 +66,4 @@ Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de to
 
 > **Nota Crítica de Qualidade:** A variável `TotalCharges` continha espaços em branco em registos onde `tenure = 0`. Estes foram tratados como valores nulos (`NaN`) durante a conversão e serão devidamente imputados na fase de *Data Preparation* (Milestone 2).
 ---
-Data de última atualização: 20/02/2026
+Data de última atualização: 23/02/2026
