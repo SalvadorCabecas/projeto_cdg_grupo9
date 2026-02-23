@@ -27,7 +27,17 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 | M4: Finalização| Maio 2026 | Pitch e Relatório Final. |
 
 ## 6. Dicionário de Dados Completo (21 Variáveis)
-Nesta fase de entendimento dos dados, procedeu-se à tipificação correta de todas as variáveis. Foi identificada a necessidade de conversão da variável `TotalCharges`, que originalmente é lida como texto (`object`), para um formato numérico (`float64`), garantindo a integridade da análise estatística e a compatibilidade com algoritmos de Machine Learning.
+Nesta etapa de Data Understanding, realizámos uma revisão exaustiva dos tipos de dados para garantir que a estrutura técnica do dataset está alinhada com a realidade do negócio e as exigências da modelação.
+
+Conversão Crítica (TotalCharges): Identificámos que esta variável estava incorretamente tipificada como texto (object). A causa raiz eram espaços em branco em clientes com tenure = 0 (novos contratos). Forçámos a conversão para float64, isolando os valores nulos para tratamento na fase de Data Preparation.
+
+Codificação Binária (Churn, SeniorCitizen): Estas variáveis foram definidas como inteiros (int64). Esta transformação é vital para permitir o cálculo de correlações estatísticas e para que os algoritmos de Machine Learning possam processar a variável alvo (0 e 1).
+
+Dimensão Temporal (tenure): Mantida como inteiro, representando a unidade discreta de meses de fidelização, essencial para análises de sobrevivência e retenção.
+
+Otimização Categórica: Todas as variáveis qualitativas (ex: tipo de contrato, serviços e método de pagamento) foram convertidas para o tipo category. Isto reduz o consumo de memória e sinaliza ao modelo a natureza discreta destas características.
+
+Nota de Integridade: Esta organização assegura que não existem "variáveis fantasma" (números lidos como texto) que possam enviesar a análise exploratória ou invalidar o treino dos modelos.
 
 ### 6.1. Variáveis Demográficas e de Identificação
 | Variável | Descrição | Tipo | Observação |
