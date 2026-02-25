@@ -96,4 +96,9 @@ Nota de Integridade: Esta organização assegura que não existem "variáveis fa
 
 > **Nota Crítica de Qualidade:** A variável `TotalCharges` continha espaços em branco em registos onde `tenure = 0`. Estes foram tratados como valores nulos (`NaN`) durante a conversão e serão devidamente imputados na fase de *Data Preparation* (Milestone 2).
 ---
-Data de última atualização: 23/02/2026
+Fonte de Dados
+Dataset: Telco Customer Churn (Kaggle)
+Dimensão: 7043 linhas e 21 colunas.
+
+Data de última atualização: 25/02/2026
+
