@@ -7,6 +7,14 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 1. *Objetivo 1:* Prever se um cliente irá cancelar o serviço com um *F1-Score mínimo de 0.75*.
 2. *Objetivo 2:* Identificar os 3 principais perfis de risco até ao final da Milestone 3.
 
+### 2.1. Questões de Partida 
+Para orientar a exploração de dados e garantir que o modelo final entrega valor de negócio, o grupo definiu as seguintes perguntas de investigação:
+
+* **P1 (Contratual):** Qual a diferença percentual na taxa de Churn entre clientes com contrato mensal (`Month-to-month`) e contratos de fidelização (1 ou 2 anos)?
+* **P2 (Ciclo de Vida):** Existe um ponto de inflexão na variável `tenure` (meses de permanência) onde a probabilidade de abandono aumenta drasticamente (ex: primeiros 6 meses)?
+* **P3 (Financeiro):** De que forma o método de pagamento (`PaymentMethod`), especificamente o `Electronic check`, influencia a propensão ao Churn comparado com métodos automáticos?
+* **P4 (Demográfico):** O segmento de clientes séniores (`SeniorCitizen`) apresenta padrões de consumo ou taxas de abandono significativamente distintos do restante público?
+
 ## 3. Metodologia de Gestão (PBL)
 * *Divisão de Tarefas:*
   * *Salvador Cabeças:* Responsável pelo Setup de infraestrutura e Engenharia de Dados.
