@@ -98,6 +98,7 @@ Nota de Integridade: Esta organização assegura que não existem "variáveis fa
 ---
 Fonte de Dados
 Dataset: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+
 Dimensão: 7043 linhas e 21 colunas.
 
 Data de última atualização: 25/02/2026
