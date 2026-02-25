@@ -6,15 +6,15 @@ O setor das telecomunicações é altamente competitivo. Reter um cliente custa 
 ## 2. Objetivos SMART
 Nesta secção, definimos as metas estratégicas que orientam o desenvolvimento do projeto, alinhando a performance técnica com as necessidades de negócio da Telco.
 ---
-### 🟢 Objetivo 1: Modelação Preditiva e Performance
+### Objetivo 1: Modelação Preditiva e Performance
 **Prever se um cliente irá cancelar o serviço com um benchmark de performance robusto.**
 * Desenvolver um modelo de classificação binária que atinja um **F1-Score mínimo de 0.75**. Esta métrica garante o equilíbrio necessário entre a precisão das previsões e a capacidade de identificação real do abandono.
 
-### 🔵 Objetivo 2: Identificação de Perfis de Risco
+### Objetivo 2: Identificação de Perfis de Risco
 **Mapear os padrões de comportamento que levam ao Churn.**
 * Identificar os **3 principais perfis de risco** (segmentos de clientes mais voláteis) até ao final da Milestone 3. Este objetivo visa transformar dados brutos em *insights* acionáveis para a equipa de marketing.
 
-### 🔴 Objetivo 3: Otimização do Recall para Retenção (Negócio)
+### Objetivo 3: Otimização do Recall para Retenção (Negócio)
 **Priorizar a métrica de Recall (Sensibilidade) no ajuste e seleção dos modelos.**
 * **Fundamentação:** Em termos de gestão, o custo de um **Falso Negativo** (não detetar um cliente que vai efetivamente sair) é drasticamente superior ao custo de um **Falso Positivo** (oferecer um incentivo de retenção a um cliente que acabaria por ficar).
 * **Meta de Negócio:** Garantir que o modelo identifique, pelo menos, **80% dos clientes em risco de churn** (Recall >= 0.80), maximizando a eficácia das campanhas de retenção preventiva.
