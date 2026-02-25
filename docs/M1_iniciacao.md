@@ -4,8 +4,11 @@
 O setor das telecomunicações é altamente competitivo. Reter um cliente custa significativamente menos do que adquirir um novo. Este projeto foca-se em analisar o comportamento de consumo e contrato de clientes para prever o risco de abandono (Churn), otimizando a saúde financeira da empresa.
 
 ## 2. Objetivos SMART
-1. *Objetivo 1:* Prever se um cliente irá cancelar o serviço com um *F1-Score mínimo de 0.75*.
-2. *Objetivo 2:* Identificar os 3 principais perfis de risco até ao final da Milestone 3.
+###Objetivo 1:* Prever se um cliente irá cancelar o serviço com um *F1-Score mínimo de 0.75*.
+###Objetivo 2:* Identificar os 3 principais perfis de risco até ao final da Milestone 3.
+###Objetivo 3: Otimização do Recall para Retenção (Negócio) - Priorizar a métrica de **Recall** (Sensibilidade) no ajuste dos modelos. 
+* **Fundamentação:** Em termos de gestão, o custo de um "Falso Negativo" (não detetar um cliente que vai sair) é drasticamente superior ao custo de um "Falso Positivo" (oferecer um incentivo a um cliente fiel). 
+* **Meta:** Garantir que o modelo identifique, pelo menos, 80% dos clientes em risco de churn, permitindo que a equipa de marketing atue preventivamente sobre a maioria das perdas potenciais.
 
 ### 2.1. Questões de Partida 
 Para orientar a exploração de dados e garantir que o modelo final entrega valor de negócio, o grupo definiu as seguintes perguntas de investigação:
