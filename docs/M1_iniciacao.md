@@ -4,17 +4,20 @@
 O setor das telecomunicações é altamente competitivo. Reter um cliente custa significativamente menos do que adquirir um novo. Este projeto foca-se em analisar o comportamento de consumo e contrato de clientes para prever o risco de abandono (Churn), otimizando a saúde financeira da empresa.
 
 ## 2. Objetivos SMART
-### Objetivo 1. Identificação de Fatores Críticos de Abandono
-Analisar exaustivamente as variáveis demográficas, de serviços (como `TechSupport` e `Fiber optic`) e contratuais para identificar os principais "gatilhos" (drivers) que levam os clientes a cancelar os serviços. Este objetivo foca-se na fase de *Data Understanding* e *Exploration* da metodologia CRISP-DM.
+Nesta secção, definimos as metas estratégicas que orientam o desenvolvimento do projeto, alinhando a performance técnica com as necessidades de negócio da Telco.
+---
+### 🟢 Objetivo 1: Modelação Preditiva e Performance
+**Prever se um cliente irá cancelar o serviço com um benchmark de performance robusto.**
+* Desenvolver um modelo de classificação binária que atinja um **F1-Score mínimo de 0.75**. Esta métrica garante o equilíbrio necessário entre a precisão das previsões e a capacidade de identificação real do abandono.
 
-### Objetivo 2. Desenvolvimento de Modelos Preditivos
-Construir e validar algoritmos de aprendizagem supervisionada (ex: Random Forest, XGBoost e Regressão Logística) capazes de classificar clientes com elevada probabilidade de churn. O sucesso será medido pela capacidade do modelo em generalizar padrões para novos dados.
+### 🔵 Objetivo 2: Identificação de Perfis de Risco
+**Mapear os padrões de comportamento que levam ao Churn.**
+* Identificar os **3 principais perfis de risco** (segmentos de clientes mais voláteis) até ao final da Milestone 3. Este objetivo visa transformar dados brutos em *insights* acionáveis para a equipa de marketing.
 
-### Objetivo 3. Otimização Estratégica do Recall (Métrica de Negócio)
-Este é o objetivo central para a rentabilidade do projeto. Em cenários de Telco Churn, o custo de um **Falso Negativo** (não detetar um cliente que vai sair) é muito superior ao custo de um **Falso Positivo** (investir numa campanha de retenção para um cliente que não ia sair). 
-* **Foco Técnico:** Ajustar o *threshold* de decisão e utilizar técnicas de balanceamento de classes para maximizar a sensibilidade (Recall).
-* **Impacto de Negócio:** Garantir que a empresa consiga intervir preventivamente na maior percentagem possível de clientes em risco.
-
+### 🔴 Objetivo 3: Otimização do Recall para Retenção (Negócio)
+**Priorizar a métrica de Recall (Sensibilidade) no ajuste e seleção dos modelos.**
+* **Fundamentação:** Em termos de gestão, o custo de um **Falso Negativo** (não detetar um cliente que vai efetivamente sair) é drasticamente superior ao custo de um **Falso Positivo** (oferecer um incentivo de retenção a um cliente que acabaria por ficar).
+* **Meta de Negócio:** Garantir que o modelo identifique, pelo menos, **80% dos clientes em risco de churn** (Recall >= 0.80), maximizando a eficácia das campanhas de retenção preventiva.
 ---
 ### 2.1. Questões de Partida 
 Para orientar a exploração de dados e garantir que o modelo final entrega valor de negócio, o grupo definiu as seguintes perguntas de investigação:
