@@ -16,14 +16,29 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 
 ## 2. Qualidade dos Dados e Limpeza
 
-### 2.1. Tratamento de Dados em Falta (Missing Data)
-* **Colunas afetadas:** `TotalCharges` (11 valores nulos encontrados).
-* **Estratégia adotada:** Identificámos que os nulos ocorriam apenas em clientes com `tenure = 0`. 
-* **Resolução:** Imputámos o valor **0.0** nestes registos, garantindo que o dataset final tem 7043 linhas completas.
+### 2.1. Identificação e Auditoria de Dados Omissos (Missing Data)
 
-### 2.2. Outliers e Inconsistências
-* Através de boxplots, confirmámos que as variáveis numéricas não apresentam outliers que exijam remoção imediata.
-* A coluna `TotalCharges` foi convertida de texto para numérico (*float64*).
+Para garantir a integridade da análise, realizámos uma auditoria exaustiva a todas as colunas do dataset para detetar valores nulos ou inconsistentes.
+
+* **O Problema dos "Nulos Invisíveis":** Inicialmente, a função padrão `df.isnull().sum()` indicava **0 valores nulos** em todas as colunas. No entanto, detetámos que a coluna `TotalCharges` continha espaços em branco (`" "`) que o Pandas interpretava como texto válido.
+* **Função Utilizada:** Para expor estes dados, utilizámos a função `pd.to_numeric(df['TotalCharges'], errors='coerce')`. O parâmetro `errors='coerce'` foi fundamental, pois forçou a conversão de texto para número e transformou automaticamente os espaços vazios em `NaN` (*Not a Number*), permitindo a sua contabilização real através do método `.isnull().sum()`.
+* **Resultado da Auditoria:**
+    * **TotalCharges:** 11 valores nulos identificados (0.15% do dataset).
+    * **Restantes Colunas:** 0% de nulos detetados após varrimento completo.
+
+### 2.2. Estratégia de Tratamento (Imputação Lógica)
+
+* **Estratégia Escolhida:** Imputação de valor constante (**0.0**).
+* **Análise de Causa:** Cruzámos os 11 registos nulos com a variável `tenure` e verificámos que todos pertenciam a clientes com **0 meses de permanência**. 
+* **Justificação Técnica:** 1.  **Lógica de Negócio:** Se o cliente tem 0 meses de contrato, a sua faturação acumulada é matematicamente zero. O valor `0.0` é o único que mantém a coerência financeira do ciclo de vida do cliente.
+    2.  **Rejeição de Alternativas:** Atribuir a média ou mediana de faturação a quem ainda não completou o primeiro mês introduziria um erro estatístico (ruído). A eliminação de linhas foi descartada para preservar a amostra de novos clientes, essencial para estudar o fenómeno do abandono precoce (*Early Churn*).
+* **Resultado Final:** O tratamento garantiu a preservação das **7043 linhas** originais, tornando o dataset tecnicamente apto para a modelação.
+
+### 2.3. Outliers e Integridade
+
+* **Análise de Outliers:** Através da visualização de *Boxplots* para as variáveis `tenure`, `MonthlyCharges` e `TotalCharges`, confirmámos que as distribuições se encontram dentro dos limites operacionais expectáveis da indústria de telecomunicações, não apresentando valores aberrantes que exijam remoção.
+* **Tipificação:** A coluna `TotalCharges` foi formalmente convertida de texto (*object*) para numérico (*float64*), permitindo cálculos estatísticos e correlações futuras.
+* **Verificação de Duplicados:** Executámos uma verificação de duplicidade através da função `df.duplicated().sum()` e confirmámos que **não existem registos duplicados** no dataset, garantindo que cada entrada representa um cliente único.
 
 ## 3. Engenharia de Atributos (Feature Engineering)
 
