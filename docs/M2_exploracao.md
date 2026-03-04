@@ -69,7 +69,7 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 | **PaymentMethod** | Método de pagamento escolhido | Categórica | 4 categorias (e.g., Electronic check). |
 | **MonthlyCharges** | Valor debitado mensalmente | Numérica (float) | Valor contínuo. |
 | **TotalCharges** | Valor total faturado ao cliente | Numérica (float) | **Convertido de object para float.** |
-| **Churn** | Indica se o cliente abandonou a empresa | Binária | **Variável Alvo (Target):** Yes, No. |
+| **Churn** | Indica se o cliente abandonou a empresa | Binária | **Variável Alvo (Target):** 0 (não), 1 (sim). |
 
 
 ## 5. Conclusões Visuais Importantes (Aula 27/02)
