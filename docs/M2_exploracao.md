@@ -30,8 +30,9 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva a t
 
 * **Estratégia Escolhida:** Imputação de valor constante (**0.0**).
 * **Análise de Causa:** Cruzámos os 11 registos nulos com a variável `tenure` e verificámos que todos pertenciam a clientes com **0 meses de permanência**. 
-* **Justificação Técnica:** 1.  **Lógica de Negócio:** Se o cliente tem 0 meses de contrato, a sua faturação acumulada é matematicamente zero. O valor `0.0` é o único que mantém a coerência financeira do ciclo de vida do cliente.
-    2.  **Rejeição de Alternativas:** Atribuir a média ou mediana de faturação a quem ainda não completou o primeiro mês introduziria um erro estatístico (ruído). A eliminação de linhas foi descartada para preservar a amostra de novos clientes, essencial para estudar o fenómeno do abandono precoce (*Early Churn*).
+* **Justificação Técnica:**
+* 1.  **Lógica de Negócio:** Se o cliente tem 0 meses de contrato, a sua faturação acumulada é matematicamente zero. O valor `0.0` é o único que mantém a coerência financeira do ciclo de vida do cliente.
+* 2.  **Rejeição de Alternativas:** Atribuir a média ou mediana de faturação a quem ainda não completou o primeiro mês introduziria um erro estatístico (ruído). A eliminação de linhas foi descartada para preservar a amostra de novos clientes, essencial para estudar o fenómeno do abandono precoce (*Early Churn*).
 * **Resultado Final:** O tratamento garantiu a preservação das **7043 linhas** originais, tornando o dataset tecnicamente apto para a modelação.
 
 ### 2.3. Outliers e Integridade
