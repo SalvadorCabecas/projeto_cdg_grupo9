@@ -84,11 +84,11 @@ Confirmámos que não existem "variáveis fantasma" (números lidos como texto):
 
 | Variável | Tipo Inicial | Tipo Final | Ação |
 | :--- | :--- | :--- | :--- |
-| `TotalCharges` | `object` (texto) | `float64` | Convertida com `pd.to_numeric(..., errors='coerce')` |
-| `Churn` | `object` (Yes/No) | `int64` | Mapeada com `.map({'Yes': 1, 'No': 0})` |
-| `SeniorCitizen` | `int64` | `category` | Convertida para refletir perfil qualitativo |
+| `TotalCharges` | `object` (texto) | `numérica (float64) ` | Convertida com `pd.to_numeric(..., errors='coerce')` |
+| `Churn` | `object` (Yes/No) | `binária (1,0) ` | Mapeada com `.map({'Yes': 1, 'No': 0})` |
+| `SeniorCitizen` | `int64` | `binária (1,0) ` | Convertida para 'Yes': 1, 'No': 0 |
 | 15 variáveis categóricas | `object` | `category` | Otimização de memória e sinalização de natureza discreta |
-| `tenure`, `MonthlyCharges` | `int64`, `float64` | Sem alteração | Tipos já corretos |
+| `tenure`, `MonthlyCharges` | Numérica (`int64`, `float64`) | Sem alteração | Tipos já corretos |
 
 #### Verificação de Duplicados
 
@@ -208,7 +208,7 @@ Serviços considerados: `PhoneService`, `MultipleLines`, `OnlineSecurity`, `Onli
 ### 6.1. Variáveis Demográficas e de Identificação
 | Variável | Descrição | Natureza | Tipo Técnico | Observação |
 | :--- | :--- | :--- | :--- | :--- |
-| **customerID** | Identificador único do cliente | Identificador | `object` | Removido na modelação (não preditivo). |
+| **customerID** | Identificador único do cliente | Identificador | `String (ID) ` | Removido na modelação (não preditivo). |
 | **gender** | Género do cliente | Categórica | `category` | Male, Female. |
 | **SeniorCitizen** | Indica se o cliente tem 65 anos ou mais | Binária | `category` | 0 (Não), 1 (Sim). |
 | **Partner** | Indica se o cliente tem parceiro(a) | Binária | `category` | Yes, No. |
