@@ -206,44 +206,44 @@ Serviços considerados: `PhoneService`, `MultipleLines`, `OnlineSecurity`, `Onli
 ## 6. Dicionário de Dados Final (24 Variáveis)
 
 ### 6.1. Variáveis Demográficas e de Identificação
-| Variável | Descrição | Tipo | Observação |
-| :--- | :--- | :--- | :--- |
-| **customerID** | Identificador único do cliente | `object` | Removido na modelação (não preditivo). |
-| **gender** | Género do cliente | `category` | Male, Female. |
-| **SeniorCitizen** | Indica se o cliente tem 65 anos ou mais | `category` | 0 (Não), 1 (Sim). |
-| **Partner** | Indica se o cliente tem parceiro(a) | `category` | Yes, No. |
-| **Dependents** | Indica se o cliente tem dependentes | `category` | Yes, No. |
+| Variável | Descrição | Natureza | Tipo Técnico | Observação |
+| :--- | :--- | :--- | :--- | :--- |
+| **customerID** | Identificador único do cliente | Identificador | `object` | Removido na modelação (não preditivo). |
+| **gender** | Género do cliente | Categórica | `category` | Male, Female. |
+| **SeniorCitizen** | Indica se o cliente tem 65 anos ou mais | Binária | `category` | 0 (Não), 1 (Sim). |
+| **Partner** | Indica se o cliente tem parceiro(a) | Binária | `category` | Yes, No. |
+| **Dependents** | Indica se o cliente tem dependentes | Binária | `category` | Yes, No. |
 
 ### 6.2. Variáveis de Serviços Subscritos
-| Variável | Descrição | Tipo | Observação |
-| :--- | :--- | :--- | :--- |
-| **PhoneService** | Se o cliente tem serviço telefónico | `category` | Yes, No. |
-| **MultipleLines** | Se o cliente tem múltiplas linhas | `category` | Yes, No, No phone service. |
-| **InternetService** | Tipo de fornecedor de internet | `category` | DSL, Fiber optic, No. |
-| **OnlineSecurity** | Se tem serviço de segurança online | `category` | Yes, No, No internet service. |
-| **OnlineBackup** | Se tem serviço de backup online | `category` | Yes, No, No internet service. |
-| **DeviceProtection** | Se tem proteção de dispositivo | `category` | Yes, No, No internet service. |
-| **TechSupport** | Se tem suporte técnico prioritário | `category` | Yes, No, No internet service. |
-| **StreamingTV** | Se utiliza *streaming* de TV | `category` | Yes, No, No internet service. |
-| **StreamingMovies** | Se utiliza *streaming* de filmes | `category` | Yes, No, No internet service. |
+| Variável | Descrição | Natureza | Tipo Técnico | Observação |
+| :--- | :--- | :--- | :--- | :--- |
+| **PhoneService** | Se o cliente tem serviço telefónico | Binária | `category` | Yes, No. |
+| **MultipleLines** | Se o cliente tem múltiplas linhas | Categórica | `category` | Yes, No, No phone service. |
+| **InternetService** | Tipo de fornecedor de internet | Categórica | `category` | DSL, Fiber optic, No. |
+| **OnlineSecurity** | Se tem serviço de segurança online | Categórica | `category` | Yes, No, No internet service. |
+| **OnlineBackup** | Se tem serviço de backup online | Categórica | `category` | Yes, No, No internet service. |
+| **DeviceProtection** | Se tem proteção de dispositivo | Categórica | `category` | Yes, No, No internet service. |
+| **TechSupport** | Se tem suporte técnico prioritário | Categórica | `category` | Yes, No, No internet service. |
+| **StreamingTV** | Se utiliza *streaming* de TV | Categórica | `category` | Yes, No, No internet service. |
+| **StreamingMovies** | Se utiliza *streaming* de filmes | Categórica | `category` | Yes, No, No internet service. |
 
 ### 6.3. Variáveis Contratuais e Financeiras
-| Variável | Descrição | Tipo | Observação |
-| :--- | :--- | :--- | :--- |
-| **tenure** | Meses de permanência na empresa | `int64` | Intervalo: 0 a 72 meses. |
-| **Contract** | Prazo do contrato do cliente | `category` | Month-to-month, One year, Two year. |
-| **PaperlessBilling** | Se utiliza faturação eletrónica | `category` | Yes, No. |
-| **PaymentMethod** | Método de pagamento escolhido | `category` | 4 categorias (e.g., *Electronic check*). |
-| **MonthlyCharges** | Valor debitado mensalmente | `float64` | Valor contínuo. |
-| **TotalCharges** | Valor total faturado ao cliente | `float64` | **Convertido de `object` para `float64`.** Imputado com `0.0` em 11 registos com `tenure=0`. |
-| **Churn** | Indica se o cliente abandonou a empresa | `int64` | **Variável alvo (*Target*):** 0 (não abandona), 1 (abandona). |
+| Variável | Descrição | Natureza | Tipo Técnico | Observação |
+| :--- | :--- | :--- | :--- | :--- |
+| **tenure** | Meses de permanência na empresa | Numérica (discreta) | `int64` | Intervalo: 0 a 72 meses. |
+| **Contract** | Prazo do contrato do cliente | Categórica (ordinal) | `category` | Month-to-month, One year, Two year. |
+| **PaperlessBilling** | Se utiliza faturação eletrónica | Binária | `category` | Yes, No. |
+| **PaymentMethod** | Método de pagamento escolhido | Categórica | `category` | 4 categorias (e.g., *Electronic check*). |
+| **MonthlyCharges** | Valor debitado mensalmente | Numérica (contínua) | `float64` | Valor contínuo. |
+| **TotalCharges** | Valor total faturado ao cliente | Numérica (contínua) | `float64` | **Convertido de `object` para `float64`.** Imputado com `0.0` em 11 registos com `tenure=0`. |
+| **Churn** | Indica se o cliente abandonou a empresa | Binária | `int64` | **Variável alvo (*Target*):** 0 (não abandona), 1 (abandona). |
 
 ### 6.4. Atributos Derivados (*Feature Engineering*)
-| Variável | Descrição | Tipo | Observação |
-| :--- | :--- | :--- | :--- |
-| **TenureCohort** | Fase do ciclo de vida do cliente | `category` | *Early* (0–12m), *Growing* (13–24m), *Mature* (25–48m), *Loyal* (49–72m). |
-| **TotalServices** | Nº de serviços adicionais subscritos | `int64` | Intervalo: 0 a 8. Indicador de *lock-in* comportamental. |
-| **LTV_Estatico** | Valor de vida estimado do cliente | `float64` | `MonthlyCharges × tenure`. Intervalo: 0 a 8550 €. |
+| Variável | Descrição | Natureza | Tipo Técnico | Observação |
+| :--- | :--- | :--- | :--- | :--- |
+| **TenureCohort** | Fase do ciclo de vida do cliente | Categórica (ordinal) | `category` | *Early* (0–12m), *Growing* (13–24m), *Mature* (25–48m), *Loyal* (49–72m). |
+| **TotalServices** | Nº de serviços adicionais subscritos | Numérica (discreta) | `int64` | Intervalo: 0 a 8. Indicador de *lock-in* comportamental. |
+| **LTV_Estatico** | Valor de vida estimado do cliente | Numérica (contínua) | `float64` | `MonthlyCharges × tenure`. Intervalo: 0 a 8550 €. |
 
 ---
 
