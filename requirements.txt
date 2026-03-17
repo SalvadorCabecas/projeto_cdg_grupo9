@@ -1,0 +1,10 @@
+# requirements.txt
+# Bibliotecas utilizadas no projeto Telco Customer Churn
+# Instalar com: pip install -r requirements.txt
+
+pandas==2.2.2          # Manipulação e análise de dados tabulares
+numpy==1.26.4          # Operações numéricas e álgebra linear
+matplotlib==3.8.4      # Visualização de dados — gráficos estáticos
+seaborn==0.13.2        # Visualização estatística baseada em matplotlib
+scikit-learn==1.4.2    # Algoritmos de aprendizagem automática e métricas de avaliação
+scipy==1.13.0          # Testes estatísticos (Qui-Quadrado, Point-Biserial)
