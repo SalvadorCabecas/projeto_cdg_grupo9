@@ -349,8 +349,3 @@ Identificámos pares de variáveis com correlação elevada (|r| > 0.80) que rep
 
 *Atualizado em: 24/03/2026*
 
----
-📋 INSTRUÇÕES DE COMMIT:
-   git add docs/M2_exploracao.md
-   git commit -m "docs: M2_exploracao.md completo — ChargesPerService, RiskScore, feature selection e dicionário final"
-   git push
