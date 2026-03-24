@@ -41,7 +41,7 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados e Engenha
 
 | Item | Ligação |
 | :--- | :--- |
-| *Notebook* principal | `notebooks/1-0-eda-limpeza.ipynb` (*Kaggle* — acesso restrito) |
+| *Notebook* principal | `notebooks/1.0_eda_limpeza.ipynb` (*Kaggle* — acesso restrito) |
 | Conjunto de dados | [*Telco Customer Churn*](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
 
 ---
