@@ -87,7 +87,7 @@ Este projeto visa construir um modelo preditivo capaz de identificar, com antece
 - 0 registos duplicados.
 - 5 novos atributos criados: `TenureCohort`, `TotalServices`, `LTV_Estatico`, `ChargesPerService` e `RiskScore`.
 - 2 variáveis removidas por redundância: `customerID` (não preditiva) e `TotalCharges` (multicolinearidade com `LTV_Estatico`).
-- Resultado final: 7043 linhas × 24 colunas → `data/processed/telco_churn_clean.csv`
+- Resultado final: 7043 linhas × 24 colunas → `data/processed/telco_churn_processed.csv`
 
 Detalhes completos em `docs/M2_exploracao.md`.
 
