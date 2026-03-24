@@ -1,4 +1,4 @@
-# Milestone 2: Análise Exploratória e Engenharia de Atributos
+# *Milestone* 2: Análise Exploratória e Engenharia de Atributos
 
 ## 1. Análise Exploratória de Dados (EDA)
 
@@ -24,16 +24,21 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 2. **Vulnerabilidade Contratual:** O contrato mensal (*Month-to-month*) é o principal ponto de falha, com uma taxa de *Churn* de **~42%** contra menos de **5%** nos contratos anuais.
 3. **Dependência Tecnológica:** Clientes com ***Fiber Optic*** apresentam maior rotatividade do que os de *DSL*, possivelmente pela agressividade competitiva neste segmento *premium*.
 
+### 1.4. Comparação por Classe *Churn* (*Boxplots*)
+* **`tenure`:** Clientes que abandonam concentram-se nos primeiros meses (mediana ≈ 10 meses vs ≈ 38 meses nos retidos) — reforça o padrão de *Early Churn*.
+* **`MonthlyCharges`:** Clientes que saem pagam, em mediana, mais por mês — possivelmente associado ao segmento *Fiber Optic* (mais caro e mais volátil).
+* **`TotalCharges`:** Naturalmente inferior no grupo *Churn* = 1 devido ao menor tempo de permanência.
+
 ---
 
 ## 2. Qualidade dos Dados e Limpeza
 
 ### 2.1. Identificação e Auditoria de Dados Omissos (Aula 9 — 04/03/2026)
 
-Para garantir a integridade da análise, realizámos uma auditoria exaustiva **antes de qualquer transformação**, para detetar valores nulos reais e "nulos invisíveis" (espaços em branco lidos como texto válido pelo Pandas).
+Para garantir a integridade da análise, realizámos uma auditoria exaustiva **antes de qualquer transformação**, para detetar valores nulos reais e "nulos invisíveis" (espaços em branco lidos como texto válido pelo *Pandas*).
 
 #### Metodologia da Auditoria
-* **Problema detetado — "Nulos Invisíveis":** A função padrão `df.isnull().sum()` indicava **0 valores nulos** em todas as colunas. No entanto, a coluna `TotalCharges` continha espaços em branco (`" "`) que o Pandas interpretava como texto válido.
+* **Problema detetado — "Nulos Invisíveis":** A função padrão `df.isnull().sum()` indicava **0 valores nulos** em todas as colunas. No entanto, a coluna `TotalCharges` continha espaços em branco (`" "`) que o *Pandas* interpretava como texto válido.
 * **Técnica de Exposição:** Utilizámos `df['TotalCharges'].str.strip() == ''` para identificar os registos com espaços em branco ainda antes da conversão, seguido de `pd.to_numeric(df['TotalCharges'], errors='coerce')` para os forçar a `NaN` e contabilizá-los com `.isnull().sum()`.
 
 #### Resultados da Auditoria Completa
@@ -64,7 +69,7 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva **a
    Linhas preservadas    : 7043 / 7043
 ```
 
-### 2.3. Tratamento de Outliers e Integridade dos Dados (Aula 10 — 06/03/2026)
+### 2.3. Tratamento de *Outliers* e Integridade dos Dados (Aula 10 — 06/03/2026)
 
 #### Análise de *Outliers* pelo Método IQR
 
@@ -84,9 +89,9 @@ Confirmámos que não existem "variáveis fantasma" (números lidos como texto):
 
 | Variável | Tipo Inicial | Tipo Final | Ação |
 | :--- | :--- | :--- | :--- |
-| `TotalCharges` | `object` (texto) | `numérica (float64) ` | Convertida com `pd.to_numeric(..., errors='coerce')` |
-| `Churn` | `object` (Yes/No) | `binária (1,0) ` | Mapeada com `.map({'Yes': 1, 'No': 0})` |
-| `SeniorCitizen` | `int64` | `binária (1,0) ` | Convertida para 'Yes': 1, 'No': 0 |
+| `TotalCharges` | `object` (texto) | numérica (`float64`) | Convertida com `pd.to_numeric(..., errors='coerce')` |
+| `Churn` | `object` (Yes/No) | binária (1, 0) | Mapeada com `.map({'Yes': 1, 'No': 0})` |
+| `SeniorCitizen` | `int64` | binária (1, 0) | Já codificada como 0/1 no *dataset* original |
 | 15 variáveis categóricas | `object` | `category` | Otimização de memória e sinalização de natureza discreta |
 | `tenure`, `MonthlyCharges` | Numérica (`int64`, `float64`) | Sem alteração | Tipos já corretos |
 
@@ -119,7 +124,7 @@ df.duplicated().sum() → 0
 * **Tipificação categórica:** 16 variáveis qualitativas foram convertidas para o tipo `category`, reduzindo o consumo de memória e sinalizando a natureza discreta das variáveis aos algoritmos.
 * **Conversão crítica:** `TotalCharges` convertida de `object` para `float64` com imputação de `0.0` nos 11 casos de `tenure = 0`.
 
-### 4.2. Criação de Novos Atributos (Aula 11 — 11/03/2026)
+### 4.2. Criação de Novos Atributos — Fase 1 (Aula 11 — 11/03/2026)
 
 Criámos 3 novos atributos para enriquecer o poder preditivo do modelo, passando o *dataset* de **21 para 24 colunas**.
 
@@ -180,71 +185,172 @@ Serviços considerados: `PhoneService`, `MultipleLines`, `OnlineSecurity`, `Onli
 
 ---
 
-### 4.3. Resumo dos Atributos Criados
+### 4.3. Criação de Novos Atributos — Fase 2 (Aula 12 — 13/03/2026)
+
+Criámos 2 atributos adicionais que combinam informação de múltiplas colunas, gerando conhecimento que não existe diretamente no *dataset* original. O *dataset* passou de **24 para 26 colunas**.
+
+---
+
+#### Atributo 4: `ChargesPerService` — Rácio de Custo por Serviço
+
+**Justificação:** Mede a relação entre o valor pago mensalmente e o número de serviços subscritos. Um cliente que paga muito por poucos serviços encontra-se numa situação de *poor value* — a hipótese é que este desequilíbrio aumenta a propensão para o abandono.
+
+**Fórmula:** `MonthlyCharges / (TotalServices + 1)` — o `+1` evita divisão por zero em clientes sem serviços adicionais.
+
+| Estatística | Valor |
+| :--- | :---: |
+| Média | 15.41 € |
+| Mediana | 13.98 € |
+| Mínimo | 7.65 € |
+| Máximo | 36.12 € |
+
+**Correlação com *Churn*:** r = +0.393 (p < 0.001) — **significativa**. Clientes com custo por serviço mais elevado apresentam maior propensão para o abandono.
+
+---
+
+#### Atributo 5: `RiskScore` — Índice de Risco Composto
+
+**Justificação:** Combina os 3 maiores preditores de *Churn* identificados na EDA (Secções 1.2 e 1.3) num único índice numérico de 0 (baixo risco) a 6 (risco máximo).
+
+**Composição do índice:**
+
+| Componente | Peso 0 | Peso 1 | Peso 2 |
+| :--- | :---: | :---: | :---: |
+| **Tipo de contrato** | Bienal (*Two year*) | Anual (*One year*) | Mensal (*Month-to-month*) |
+| **Serviço de internet** | Sem internet | *DSL* | *Fiber Optic* |
+| **Antiguidade** | > 12 meses | — | ≤ 12 meses |
+
+**Validação empírica — Taxa de *Churn* por nível de *RiskScore*:**
+
+| *RiskScore* | Nº de Clientes | Taxa de *Churn* |
+| :---: | :---: | :---: |
+| 0 | 588 | **0.9%** |
+| 1 | 899 | 1.9% |
+| 2 | 1143 | 7.7% |
+| 3 | 1158 | 17.9% |
+| 4 | 1642 | 37.4% |
+| 5 | 697 | 42.3% |
+| 6 | 916 | **70.2%** |
+
+**Correlação com *Churn*:** r = +0.487 (p < 0.001) — **a correlação mais forte de todas as variáveis do *dataset***, confirmando que o índice composto captura informação preditiva superior à de qualquer variável isolada.
+
+**Conclusão (resposta à P5):** O *RiskScore* demonstra uma progressão monotónica clara — de 0.9% no nível 0 para 70.2% no nível 6 — validando a utilidade desta variável para a modelação no M3.
+
+---
+
+### 4.4. Resumo dos Atributos Criados
 
 | Atributo | Tipo | Intervalo | O que mede |
 | :--- | :--- | :---: | :--- |
 | `TenureCohort` | `category` (4 grupos) | *Early* → *Loyal* | Fase do ciclo de vida do cliente |
 | `TotalServices` | `int64` | 0 – 8 | Grau de *lock-in* comportamental |
 | `LTV_Estatico` | `float64` | 0 – 8550 € | Valor financeiro acumulado estimado |
+| `ChargesPerService` | `float64` | 7.65 – 36.12 € | Rácio custo/serviço (*poor value*) |
+| `RiskScore` | `int64` | 0 – 6 | Índice de risco composto de abandono |
+
+### 4.5. Correlação das Novas Variáveis com *Churn*
+
+| Variável | Correlação (r) | p-valor | Significância |
+| :--- | :---: | :---: | :---: |
+| `RiskScore` | +0.487 | < 0.001 | Significativa |
+| `ChargesPerService` | +0.393 | < 0.001 | Significativa |
+| `LTV_Estatico` | -0.199 | < 0.001 | Significativa |
+| `TotalServices` | -0.067 | < 0.001 | Significativa |
 
 ---
 
-## 5. Estado Final do *Dataset* (Pós-*Feature Engineering*)
+## 5. Seleção de Atributos — *Feature Selection* (Aula 13 — 18/03/2026)
+
+### 5.1. Verificação de Multicolinearidade
+
+Identificámos pares de variáveis com correlação elevada (|r| > 0.80) que representam informação redundante:
+
+| Par | Correlação (r) | Decisão |
+| :--- | :---: | :--- |
+| `TotalCharges` vs `LTV_Estatico` | **+1.000** | **Remover `TotalCharges`** — `LTV_Estatico` captura a mesma informação com nomenclatura explícita. |
+| `tenure` vs `LTV_Estatico` | +0.827 | **Manter ambas** — `LTV_Estatico` combina `tenure` e `MonthlyCharges`, contendo informação adicional. |
+| `MonthlyCharges` vs `TotalServices` | +0.802 | **Manter ambas** — conceitos distintos (preço pago vs número de serviços subscritos). |
+
+### 5.2. Variáveis Removidas
+
+| Variável | Motivo da Remoção |
+| :--- | :--- |
+| `customerID` | Identificador único sem valor preditivo. |
+| `TotalCharges` | Redundância total (r = 1.000) com `LTV_Estatico`. A fórmula `MonthlyCharges × tenure` é equivalente a `TotalCharges` após imputação. |
+
+---
+
+## 6. Estado Final do *Dataset* (Pronto para Modelação)
 
 ```
 📌 DATASET FINAL — PRONTO PARA MODELAÇÃO (M3):
    Linhas      : 7043
-   Colunas     : 24  (21 originais + 3 novos atributos)
+   Colunas     : 24  (21 originais + 5 novos atributos − 2 removidos)
    Nulos       : 0
-   Duplicados  : 0
+   Duplicados  : 27 (clientes distintos com perfil coincidente — não são erros)
    Ficheiro    : data/processed/telco_churn_clean.csv
 ```
 
 ---
 
-## 6. Dicionário de Dados Final (24 Variáveis)
+## 7. Dicionário de Dados Final (24 Variáveis)
 
-### 6.1. Variáveis Demográficas e de Identificação
+### 7.1. Variáveis Demográficas
 | Variável | Descrição | Natureza | Tipo Técnico | Observação |
 | :--- | :--- | :--- | :--- | :--- |
-| **customerID** | Identificador único do cliente | Identificador | `String (ID) ` | Removido na modelação (não preditivo). |
-| **gender** | Género do cliente | Categórica | `category` | Male, Female. |
+| **gender** | Género do cliente | Categórica | `category` | *Male*, *Female*. |
 | **SeniorCitizen** | Indica se o cliente tem 65 anos ou mais | Binária | `category` | 0 (Não), 1 (Sim). |
-| **Partner** | Indica se o cliente tem parceiro(a) | Binária | `category` | Yes, No. |
-| **Dependents** | Indica se o cliente tem dependentes | Binária | `category` | Yes, No. |
+| **Partner** | Indica se o cliente tem parceiro(a) | Binária | `category` | *Yes*, *No*. |
+| **Dependents** | Indica se o cliente tem dependentes | Binária | `category` | *Yes*, *No*. |
 
-### 6.2. Variáveis de Serviços Subscritos
+### 7.2. Variáveis de Serviços Subscritos
 | Variável | Descrição | Natureza | Tipo Técnico | Observação |
 | :--- | :--- | :--- | :--- | :--- |
-| **PhoneService** | Se o cliente tem serviço telefónico | Binária | `category` | Yes, No. |
-| **MultipleLines** | Se o cliente tem múltiplas linhas | Categórica | `category` | Yes, No, No phone service. |
-| **InternetService** | Tipo de fornecedor de internet | Categórica | `category` | DSL, Fiber optic, No. |
-| **OnlineSecurity** | Se tem serviço de segurança online | Categórica | `category` | Yes, No, No internet service. |
-| **OnlineBackup** | Se tem serviço de backup online | Categórica | `category` | Yes, No, No internet service. |
-| **DeviceProtection** | Se tem proteção de dispositivo | Categórica | `category` | Yes, No, No internet service. |
-| **TechSupport** | Se tem suporte técnico prioritário | Categórica | `category` | Yes, No, No internet service. |
-| **StreamingTV** | Se utiliza *streaming* de TV | Categórica | `category` | Yes, No, No internet service. |
-| **StreamingMovies** | Se utiliza *streaming* de filmes | Categórica | `category` | Yes, No, No internet service. |
+| **PhoneService** | Se o cliente tem serviço telefónico | Binária | `category` | *Yes*, *No*. |
+| **MultipleLines** | Se o cliente tem múltiplas linhas | Categórica | `category` | *Yes*, *No*, *No phone service*. |
+| **InternetService** | Tipo de fornecedor de internet | Categórica | `category` | *DSL*, *Fiber optic*, *No*. |
+| **OnlineSecurity** | Se tem serviço de segurança *online* | Categórica | `category` | *Yes*, *No*, *No internet service*. |
+| **OnlineBackup** | Se tem serviço de *backup online* | Categórica | `category` | *Yes*, *No*, *No internet service*. |
+| **DeviceProtection** | Se tem proteção de dispositivo | Categórica | `category` | *Yes*, *No*, *No internet service*. |
+| **TechSupport** | Se tem suporte técnico prioritário | Categórica | `category` | *Yes*, *No*, *No internet service*. |
+| **StreamingTV** | Se utiliza *streaming* de TV | Categórica | `category` | *Yes*, *No*, *No internet service*. |
+| **StreamingMovies** | Se utiliza *streaming* de filmes | Categórica | `category` | *Yes*, *No*, *No internet service*. |
 
-### 6.3. Variáveis Contratuais e Financeiras
+### 7.3. Variáveis Contratuais e Financeiras
 | Variável | Descrição | Natureza | Tipo Técnico | Observação |
 | :--- | :--- | :--- | :--- | :--- |
 | **tenure** | Meses de permanência na empresa | Numérica (discreta) | `int64` | Intervalo: 0 a 72 meses. |
-| **Contract** | Prazo do contrato do cliente | Categórica (ordinal) | `category` | Month-to-month, One year, Two year. |
-| **PaperlessBilling** | Se utiliza faturação eletrónica | Binária | `category` | Yes, No. |
+| **Contract** | Prazo do contrato do cliente | Categórica (ordinal) | `category` | *Month-to-month*, *One year*, *Two year*. |
+| **PaperlessBilling** | Se utiliza faturação eletrónica | Binária | `category` | *Yes*, *No*. |
 | **PaymentMethod** | Método de pagamento escolhido | Categórica | `category` | 4 categorias (e.g., *Electronic check*). |
 | **MonthlyCharges** | Valor debitado mensalmente | Numérica (contínua) | `float64` | Valor contínuo. |
-| **TotalCharges** | Valor total faturado ao cliente | Numérica (contínua) | `float64` | **Convertido de `object` para `float64`.** Imputado com `0.0` em 11 registos com `tenure=0`. |
+
+### 7.4. Variável Alvo
+| Variável | Descrição | Natureza | Tipo Técnico | Observação |
+| :--- | :--- | :--- | :--- | :--- |
 | **Churn** | Indica se o cliente abandonou a empresa | Binária | `int64` | **Variável alvo (*Target*):** 0 (não abandona), 1 (abandona). |
 
-### 6.4. Atributos Derivados (*Feature Engineering*)
+### 7.5. Atributos Derivados (*Feature Engineering*)
 | Variável | Descrição | Natureza | Tipo Técnico | Observação |
 | :--- | :--- | :--- | :--- | :--- |
 | **TenureCohort** | Fase do ciclo de vida do cliente | Categórica (ordinal) | `category` | *Early* (0–12m), *Growing* (13–24m), *Mature* (25–48m), *Loyal* (49–72m). |
 | **TotalServices** | Nº de serviços adicionais subscritos | Numérica (discreta) | `int64` | Intervalo: 0 a 8. Indicador de *lock-in* comportamental. |
 | **LTV_Estatico** | Valor de vida estimado do cliente | Numérica (contínua) | `float64` | `MonthlyCharges × tenure`. Intervalo: 0 a 8550 €. |
+| **ChargesPerService** | Custo mensal por serviço subscrito | Numérica (contínua) | `float64` | `MonthlyCharges / (TotalServices + 1)`. Intervalo: 7.65 a 36.12 €. |
+| **RiskScore** | Índice de risco composto de abandono | Numérica (discreta) | `int64` | Soma de 3 componentes (contrato + internet + antiguidade). Intervalo: 0 a 6. |
+
+### 7.6. Variáveis Removidas (não presentes no *dataset* final)
+| Variável | Motivo da Remoção |
+| :--- | :--- |
+| **customerID** | Identificador único sem valor preditivo. |
+| **TotalCharges** | Redundância total (r = 1.000) com `LTV_Estatico`. |
 
 ---
 
-*Atualizado em: 11/03/2026*
+*Atualizado em: 24/03/2026*
+
+---
+📋 INSTRUÇÕES DE COMMIT:
+   git add docs/M2_exploracao.md
+   git commit -m "docs: M2_exploracao.md completo — ChargesPerService, RiskScore, feature selection e dicionário final"
+   git push
