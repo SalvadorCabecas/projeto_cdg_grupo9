@@ -56,9 +56,9 @@ Este projeto visa construir um modelo preditivo capaz de identificar, com antece
 
 ### Objetivos do Projeto (SMART)
 
-1. **Objetivo 1:** Desenvolver e comparar três modelos de classificação supervisionada — Regressão Logística, *Random Forest* e *XGBoost* — para prever o abandono de clientes (*Churn*), selecionando o modelo com melhor *F1-Score* na classe positiva (*Churn* = 1), com um limiar mínimo de 0,75 em validação cruzada estratificada (k=5), até ao dia 21/04/2026 (*Milestone* 3).
-2. **Objetivo 2:** Validar que o índice de risco composto (*RiskScore*), construído a partir de variáveis contratuais e de serviço durante a fase de *feature engineering*, estratifica eficazmente os clientes em níveis de risco de abandono, confirmando que o grupo de risco mais elevado apresenta uma taxa de abandono superior a 60% e que a variável contribui significativamente para o poder preditivo do modelo final (*feature importance*), até ao dia 21/04/2026 (*Milestone* 3).
-3. **Objetivo 3:** Assegurar uma taxa de deteção (*Recall*) igual ou superior a 0,80 para a classe positiva (*Churn* = 1), minimizando o número de clientes em risco não identificados pelo modelo, recorrendo a técnicas de balanceamento de classes (SMOTE e/ou ajuste de *class_weight*) e otimização do limiar de decisão, até ao dia 21/04/2026 (*Milestone* 3).
+1. **Objetivo 1:** Desenvolver e comparar três modelos de classificação supervisionada — Regressão Logística, *Random Forest* e *XGBoost* — para prever o abandono de clientes (*Churn*), selecionando o modelo com melhor *F1-Score* na classe positiva (*Churn* = 1), com um limiar mínimo de 0,75 em validação cruzada estratificada (k=5), até ao dia 23/04/2026 (*Milestone* 3).
+2. **Objetivo 2:** Validar que o índice de risco composto (*RiskScore*), construído a partir de variáveis contratuais e de serviço durante a fase de *feature engineering*, estratifica eficazmente os clientes em níveis de risco de abandono, confirmando que o grupo de risco mais elevado apresenta uma taxa de abandono superior a 60% e que a variável contribui significativamente para o poder preditivo do modelo final (*feature importance*), até ao dia 23/04/2026 (*Milestone* 3).
+3. **Objetivo 3:** Assegurar uma taxa de deteção (*Recall*) igual ou superior a 0,80 para a classe positiva (*Churn* = 1), minimizando o número de clientes em risco não identificados pelo modelo, recorrendo a técnicas de balanceamento de classes (SMOTE e/ou ajuste de *class_weight*) e otimização do limiar de decisão, até ao dia 23/04/2026 (*Milestone* 3).
 
 ### Questões de Investigação
 
@@ -152,4 +152,4 @@ Detalhes completos em `docs/M2_exploracao.md`.
 
 ---
 
-*Última atualização: 24/03/2026*
+*Última atualização: 25/03/2026*
