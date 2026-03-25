@@ -32,7 +32,7 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados e Engenha
 | :--- | :--- | :---: | :---: |
 | **M1 — Iniciação** | Compreensão do negócio e dos dados | 24/02/2026 | Concluído |
 | **M2 — Exploração** | Análise exploratória e preparação dos dados | 24/03/2026 | Concluído |
-| **M3 — Modelação** | Modelação e avaliação | A definir | Por iniciar |
+| **M3 — Modelação** | Modelação e avaliação | 23/04/2026 | Em Curso |
 | **M4 — Finalização** | Comunicação e entrega | A definir | Por iniciar |
 
 ---
