@@ -42,7 +42,7 @@ Para orientar a exploração de dados e garantir que o modelo final entrega valo
 | Fase | Data Limite | Entregável Esperado |
 | :--- | :--- | :--- |
 | M1: Iniciação | 20/02/2026 | Repositório estruturado e Plano de Projeto. |
-| M2: Exploração | Março 2026 | Notebook de EDA e Dados Processados. |
+| M2: Exploração | 24/03/2026 | Notebook de EDA e Dados Processados. |
 | M3: Modelação | Abril 2026 | Comparação de algoritmos e métricas. |
 | M4: Finalização| Maio 2026 | Pitch e Relatório Final. |
 
