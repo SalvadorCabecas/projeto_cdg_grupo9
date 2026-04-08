@@ -1,4 +1,4 @@
-# *Milestone* 2: Análise Exploratória e Engenharia de Atributos
+# Milestone 2: Análise Exploratória e Engenharia de Atributos
 
 ## 1. Análise Exploratória de Dados (EDA)
 
@@ -19,7 +19,7 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 | `MonthlyCharges` vs `Churn` | **+0.19** | Correlação positiva moderada — faturas mensais mais elevadas associadas a maior propensão de saída. |
 | `TotalCharges` vs `tenure` | **+0.83** | Multicolinearidade elevada — selecionar apenas uma destas variáveis em modelos lineares (M3) para evitar redundância. |
 
-### 1.3. Conclusões da Análise Bivariada (Aula 27/02)
+### 1.3. Conclusões da Análise Bivariada
 1. **Risco Temporal:** O abandono concentra-se no **primeiro ano de contrato** ("zona de perigo": meses 0–12), estabilizando após os 24 meses.
 2. **Vulnerabilidade Contratual:** O contrato mensal (*Month-to-month*) é o principal ponto de falha, com uma taxa de *Churn* de **~42%** contra menos de **5%** nos contratos anuais.
 3. **Dependência Tecnológica:** Clientes com ***Fiber Optic*** apresentam maior rotatividade do que os de *DSL*, possivelmente pela agressividade competitiva neste segmento *premium*.
@@ -33,7 +33,7 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 
 ## 2. Qualidade dos Dados e Limpeza
 
-### 2.1. Identificação e Auditoria de Dados Omissos (Aula 9 — 04/03/2026)
+### 2.1. Identificação e Auditoria de Dados Omissos
 
 Para garantir a integridade da análise, realizámos uma auditoria exaustiva **antes de qualquer transformação**, para detetar valores nulos reais e "nulos invisíveis" (espaços em branco lidos como texto válido pelo *Pandas*).
 
@@ -49,7 +49,7 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva **a
 | Todas as restantes (19 colunas) | 0 | 0.00% |
 | **Total** | **11** | **0.15%** |
 
-### 2.2. Estratégia de Tratamento dos Dados em Falta (Aula 9 — 04/03/2026)
+### 2.2. Estratégia de Tratamento dos Dados em Falta
 
 #### Decisão: Imputação por Valor Constante (`0.0`)
 
@@ -69,7 +69,7 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva **a
    Linhas preservadas    : 7043 / 7043
 ```
 
-### 2.3. Tratamento de *Outliers* e Integridade dos Dados (Aula 10 — 06/03/2026)
+### 2.3. Tratamento de *Outliers* e Integridade dos Dados
 
 #### Análise de *Outliers* pelo Método IQR
 
@@ -123,8 +123,9 @@ df.duplicated().sum() → 0
 * ***Encoding* da variável alvo:** A variável `Churn` foi convertida de qualitativa (Yes/No) para binária (`int64`: 0 e 1), essencial para correlações e algoritmos de *machine learning*.
 * **Tipificação categórica:** 16 variáveis qualitativas foram convertidas para o tipo `category`, reduzindo o consumo de memória e sinalizando a natureza discreta das variáveis aos algoritmos.
 * **Conversão crítica:** `TotalCharges` convertida de `object` para `float64` com imputação de `0.0` nos 11 casos de `tenure = 0`.
+* **Escalonamento de atributos — decisão fundamentada:** Avaliámos a necessidade de normalizar/padronizar as variáveis numéricas (`tenure`, `MonthlyCharges`, `LTV_Estatico`, `ChargesPerService`). **Decisão: não aplicado nesta fase.** Random Forest e XGBoost — os modelos principais de M3 — são baseados em árvores de decisão e são invariantes à escala. Para a Regressão Logística (*baseline*), o `StandardScaler` será integrado no pipeline de treino em M3, com *fit* exclusivo no conjunto de treino, evitando *data leakage*. Manter os valores originais na fase de EDA preserva também a legibilidade durante a exploração (`tenure` em meses, `MonthlyCharges` em €).
 
-### 4.2. Criação de Novos Atributos — Fase 1 (Aula 11 — 11/03/2026)
+### 4.2. Criação de Novos Atributos — Fase 1
 
 Criámos 3 novos atributos para enriquecer o poder preditivo do modelo, passando o *dataset* de **21 para 24 colunas**.
 
@@ -185,7 +186,7 @@ Serviços considerados: `PhoneService`, `MultipleLines`, `OnlineSecurity`, `Onli
 
 ---
 
-### 4.3. Criação de Novos Atributos — Fase 2 (Aula 12 — 13/03/2026)
+### 4.3. Criação de Novos Atributos — Fase 2
 
 Criámos 2 atributos adicionais que combinam informação de múltiplas colunas, gerando conhecimento que não existe diretamente no *dataset* original. O *dataset* passou de **24 para 26 colunas**.
 
@@ -242,11 +243,11 @@ Criámos 2 atributos adicionais que combinam informação de múltiplas colunas,
 
 | Atributo | Tipo | Intervalo | O que mede |
 | :--- | :--- | :---: | :--- |
-| `TenureCohort` | `category` (4 grupos) | *Early* → *Loyal* | Fase do ciclo de vida do cliente |
-| `TotalServices` | `int64` | 0 – 8 | Grau de *lock-in* comportamental |
-| `LTV_Estatico` | `float64` | 0 – 8550 € | Valor financeiro acumulado estimado |
-| `ChargesPerService` | `float64` | 7.65 – 36.12 € | Rácio custo/serviço (*poor value*) |
-| `RiskScore` | `int64` | 0 – 6 | Índice de risco composto de abandono |
+| `TenureCohort` | `categórica` (4 grupos) | *Early* → *Loyal* | Fase do ciclo de vida do cliente |
+| `TotalServices` | Numérica (`int64`) | 0 – 8 | Grau de *lock-in* comportamental |
+| `LTV_Estatico` | Numérica (`float64`) | 0 – 8550 € | Valor financeiro acumulado estimado |
+| `ChargesPerService` | Numérica (`float64`) | 7.65 – 36.12 € | Rácio custo/serviço (*poor value*) |
+| `RiskScore` | Numérica (`int64`) | 0 – 6 | Índice de risco composto de abandono |
 
 ### 4.5. Correlação das Novas Variáveis com *Churn*
 
@@ -259,7 +260,7 @@ Criámos 2 atributos adicionais que combinam informação de múltiplas colunas,
 
 ---
 
-## 5. Seleção de Atributos — *Feature Selection* (Aula 13 — 18/03/2026)
+## 5. Seleção de Atributos — *Feature Selection*
 
 ### 5.1. Verificação de Multicolinearidade
 
@@ -347,5 +348,33 @@ Identificámos pares de variáveis com correlação elevada (|r| > 0.80) que rep
 
 ---
 
-*Atualizado em: 24/03/2026*
+## 8. Conclusões da Fase de Exploração
 
+### O que aprendemos que não sabíamos no final do M1?
+
+**1. A antiguidade (*tenure*) é o preditor mais robusto de retenção.**
+No M1 identificámos as variáveis existentes, mas não sabíamos a magnitude do efeito. A análise *KDE* e bivariada revelou que os primeiros 12 meses são uma "zona de perigo" crítica — 47.4% de *churn* na fase *Early* contra 9.5% na fase *Loyal*. Esta descoberta justifica a criação do `TenureCohort` e orienta diretamente a estratégia de retenção.
+
+**2. O tipo de contrato amplifica exponencialmente o risco.**
+Contratos mensais apresentam ~42% de *churn* face a <5% nos contratos anuais — uma diferença de 8× que não era quantificada no M1. Este insight responde à P1 e é um dos componentes centrais do `RiskScore`.
+
+**3. O `RiskScore` composto supera qualquer variável isolada.**
+A correlação de +0.487 com *Churn* é a mais elevada de todo o *dataset* — superior ao `tenure` (-0.35) e ao `MonthlyCharges` (+0.19). Isto confirma que a combinação de contrato + internet + antiguidade captura informação preditiva que nenhuma variável original capturava sozinha (resposta à P5).
+
+**4. A `TotalCharges` é redundante após o *feature engineering*.**
+A correlação perfeita (r = 1.000) com o `LTV_Estatico` — que foi criado por nós — confirmou que a variável original não acrescenta informação nova. A sua remoção simplifica o modelo sem perda de poder preditivo.
+
+**5. O desequilíbrio de classes exige estratégia de balanceamento.**
+A distribuição 73.5%/26.5% confirma que *Accuracy* não pode ser a métrica de avaliação em M3. A decisão de usar SMOTE (no treino) e F1-Score como métrica principal decorre diretamente desta análise.
+
+### Os dados são suficientes para avançar para a modelação?
+
+**Sim.** O *dataset* final reúne as condições necessárias:
+- **Dimensão:** 7043 registos — suficiente para divisão treino/teste estratificada e validação cruzada k=5.
+- **Qualidade:** 0 nulos, 0 duplicados problemáticos, tipos de dados corretos.
+- **Poder preditivo:** 5 novos atributos com correlações estatisticamente significativas (p < 0.001), especialmente o `RiskScore` (+0.487) e o `ChargesPerService` (+0.393).
+- **Limitação conhecida:** O desequilíbrio de classes (~26.5% *churn*) será mitigado com SMOTE em M3, aplicado exclusivamente ao conjunto de treino.
+
+---
+
+*Atualizado em: 08/04/2026*
