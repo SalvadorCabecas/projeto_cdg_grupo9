@@ -2,7 +2,7 @@
 
 ## 1. Descrição Detalhada do Problema
 
-O setor das telecomunicações caracteriza-se por mercados saturados e elevada concorrência, o que torna a retenção de clientes um fator crítico para a sustentabilidade das empresas. O custo de aquisição de um novo cliente é significativamente superior ao custo de retenção de um cliente existente, tornando o abandono (Churn) uma das principais ameaças à saúde financeira de qualquer operador.
+O setor das telecomunicações caracteriza-se por mercados saturados e elevada concorrência, o que torna a retenção de clientes um fator crítico para a sustentabilidade das empresas.
 
 Este projeto foca-se em analisar o comportamento de consumo, contrato e faturação de clientes de uma empresa de telecomunicações para construir um modelo preditivo capaz de identificar, com antecedência, os clientes com maior probabilidade de abandonar o serviço. O objetivo final é fornecer à empresa uma ferramenta de apoio à decisão que permita priorizar intervenções de retenção de forma eficiente e direcionada.
 
