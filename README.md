@@ -41,7 +41,8 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados e Engenha
 
 | Item | Ligação |
 | :--- | :--- |
-| *Notebook* principal | `notebooks/1.0_eda_limpeza.ipynb` (*Kaggle* — acesso restrito) |
+| *Notebook* EDA e preparação | `notebooks/1.0_eda_limpeza.ipynb` (*Kaggle* — acesso restrito) |
+| *Notebook* modelação e treino | `notebooks/2.0_modelacao_treino.ipynb` (*Kaggle* — acesso restrito) |
 | Conjunto de dados | [*Telco Customer Churn*](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
 
 ---
@@ -56,9 +57,9 @@ Este projeto visa construir um modelo preditivo capaz de identificar, com antece
 
 ### Objetivos do Projeto (SMART)
 
-1. **Objetivo 1:** Desenvolver e comparar três modelos de classificação supervisionada — Regressão Logística, *Random Forest* e *XGBoost* — para prever o abandono de clientes (*Churn*), selecionando o modelo com melhor *F1-Score* na classe positiva (*Churn* = 1), com um limiar mínimo de 0,75 em validação cruzada estratificada (k=5), até ao dia 23/04/2026 (*Milestone* 3).
+1. **Objetivo 1:** Desenvolver e comparar modelos de classificação supervisionada para prever o abandono de clientes (*Churn*), selecionando o modelo com melhor *F1-Score* na classe positiva (*Churn* = 1), com um limiar mínimo de 0,75 em validação cruzada estratificada (k=5), até ao dia 23/04/2026 (*Milestone* 3).
 2. **Objetivo 2:** Validar que o índice de risco composto (*RiskScore*), construído a partir de variáveis contratuais e de serviço durante a fase de *feature engineering*, estratifica eficazmente os clientes em níveis de risco de abandono, confirmando que o grupo de risco mais elevado apresenta uma taxa de abandono superior a 60% e que a variável contribui significativamente para o poder preditivo do modelo final (*feature importance*), até ao dia 23/04/2026 (*Milestone* 3).
-3. **Objetivo 3:** Assegurar uma taxa de deteção (*Recall*) igual ou superior a 0,80 para a classe positiva (*Churn* = 1), minimizando o número de clientes em risco não identificados pelo modelo, recorrendo a técnicas de balanceamento de classes (SMOTE e/ou ajuste de *class_weight*) e otimização do limiar de decisão, até ao dia 23/04/2026 (*Milestone* 3).
+3. **Objetivo 3:** Assegurar uma taxa de deteção (*Recall*) igual ou superior a 0,80 para a classe positiva (*Churn* = 1), minimizando o número de clientes em risco não identificados pelo modelo, recorrendo a técnicas de balanceamento de classes (*SMOTE* e/ou ajuste de *class_weight*) e otimização do limiar de decisão, até ao dia 23/04/2026 (*Milestone* 3).
 
 ### Questões de Investigação
 
@@ -104,12 +105,42 @@ Detalhes completos em `docs/M2_exploracao.md`.
 
 ## 3. Modelação (*Milestone* 3)
 
-### Abordagem Técnica
+### Estratégia de Modelação
 
-- **Modelos:** Regressão Logística, *Random Forest*, *XGBoost*
-- **Métrica principal:** *F1-Score* e *Recall*
+O *dataset* processado foi dividido em 80% para treino e 20% para teste com divisão estratificada (`stratify=y, random_state=42`), preservando a proporção real de *churn* (~26.5%) em ambas as partições. Para corrigir o desequilíbrio de classes, foi aplicado *SMOTE* exclusivamente no conjunto de treino (~4508 Não-*Churn* / ~4508 *Churn* após balanceamento). O `StandardScaler` foi ajustado no treino balanceado e aplicado a ambos os conjuntos. A métrica principal é o *F1-Score* na classe *Churn* (objetivo ≥ 0.75 em CV), complementada pelo *AUC-ROC* e *Recall* (objetivo ≥ 0.80).
 
-*A iniciar após conclusão do M2.*
+### Algoritmos Testados
+
+| Algoritmo | F1 Treino | F1 Teste | *AUC-ROC* | *Gap* F1 |
+| :--- | :---: | :---: | :---: | :---: |
+| *Logistic Regression* (*baseline*) | 0.8436 | **0.6048** | **0.8340** | 0.2388 |
+| *Gradient Boosting* | 0.8588 | 0.5898 | 0.8319 | 0.2690 |
+| *Random Forest* | 0.9982 | 0.5812 | 0.8194 | 0.4169 |
+| *Naive Bayes* | 0.7684 | 0.5799 | 0.8077 | 0.1885 |
+| *XGBoost* | 0.9606 | 0.5677 | 0.8009 | 0.3930 |
+| *KNN* | 0.8758 | 0.5398 | 0.7690 | 0.3360 |
+| *Decision Tree* | 0.9983 | 0.4881 | 0.6502 | 0.5102 |
+
+A Regressão Logística obteve o melhor *F1-Score* no teste real (0.6048) e o melhor *AUC-ROC* (0.8340). Os modelos *tree-based* revelaram *overfitting* severo à distribuição sintética do *SMOTE*, não generalizando para a distribuição real do teste.
+
+### Otimização (*Tuning*)
+
+O *Gradient Boosting* foi seleccionado para otimização com `RandomizedSearchCV` (50 iterações × 5 *folds* = 250 *fits*, `scoring='f1'`). Os hiperparâmetros óptimos encontrados foram: `n_estimators=287`, `max_depth=3`, `learning_rate=0.1353`, `subsample=0.7465`, `min_samples_split=19`. A validação cruzada K=5 sobre o modelo optimizado produziu μ=0.8527 ± σ=0.0096 (IC 95%: [0.8339, 0.8715]), confirmando estabilidade elevada. No conjunto de teste real, o modelo optimizado obteve F1=0.5814, abaixo do *baseline* (F1=0.6048) — fenómeno de *distribution shift* decorrente da diferença entre a distribuição *SMOTE*-balanceada e a distribuição real do teste.
+
+### Estado Atual e Próximos Passos
+
+| Etapa | Estado |
+| :--- | :---: |
+| Divisão treino/teste + *SMOTE* + `StandardScaler` | ✅ Concluído |
+| *Baseline* (Regressão Logística) — F1=0.6048, *AUC*=0.8340 | ✅ Concluído |
+| Comparação de 7 algoritmos candidatos | ✅ Concluído |
+| Diagnóstico de *overfitting* + curvas de aprendizagem | ✅ Concluído |
+| Otimização *Gradient Boosting* (*RandomizedSearchCV*) | ✅ Concluído |
+| Ajuste de *threshold* + matriz de confusão final | ⏳ Aula 20 — 17/04/2026 |
+| *Feature importance* + análise de erros | ⏳ Aula 20 — 17/04/2026 |
+| Consolidação e limpeza do *notebook* | ⏳ Aula 21 — 22/04/2026 |
+
+Detalhes completos em `docs/M3_modelacao.md`.
 
 ---
 
@@ -152,4 +183,4 @@ Detalhes completos em `docs/M2_exploracao.md`.
 
 ---
 
-*Última atualização: 25/03/2026*
+*Última atualização: 15/04/2026 | Aula 19 — Semana 10*
