@@ -73,7 +73,15 @@ As curvas convergem a partir dos ~5000 registos e estabilizam acima do objetivo 
 ---
 
 ## 3. Otimização (*Tuning*)
-*(a preencher na Aula 19 — 15/04/2026)*
+O algoritmo seleccionado para otimização foi o *Gradient Boosting*, com base nas curvas de aprendizagem da Aula 18 que revelaram convergência real entre treino e validação (Gap CV = 0.017) e F1 de validação de 0.8446, já acima do objectivo de 0.75 definido em M1. O potencial de melhoria com *tuning* foi considerado superior ao da Regressão Logística, que opera próximo do seu limite estrutural linear.
+
+A técnica de otimização adoptada foi o *RandomizedSearchCV* com 50 iterações e validação cruzada estratificada K=5 integrada (*scoring='f1'*), totalizando 250 *fits*. O espaço de pesquisa foi definido de forma conservadora para prevenir *overfitting* à distribuição sintética gerada pelo *SMOTE*: `max_depth` limitado ao intervalo [3, 5] e `min_samples_split` mínimo de 10. Os parâmetros óptimos encontrados foram: `n_estimators=287`, `max_depth=3`, `learning_rate=0.1353`, `subsample=0.7465`, `min_samples_split=19`.
+
+Para quantificar a estabilidade do modelo optimizado, foi aplicada uma validação cruzada K=5 explícita ao modelo final, com os seguintes resultados por dobra: Fold 1 = 0.8381, Fold 2 = 0.8482, Fold 3 = 0.8509, Fold 4 = 0.8650, Fold 5 = 0.8611. A média situou-se em μ = 0.8527 com desvio padrão σ = 0.0096 e intervalo de confiança a 95% de [0.8339, 0.8715]. O σ < 0.03 confirma estabilidade elevada entre as dobras.
+
+A avaliação no conjunto de teste real revelou, contudo, um resultado contraintuitivo: o *Gradient Boosting* optimizado obteve F1 = 0.5814 e *AUC-ROC* = 0.8229 no teste real, ficando abaixo do *baseline* de Regressão Logística (F1 = 0.6048, *AUC* = 0.8340). O facto de o algoritmo ter convergido espontaneamente para `max_depth=3` — o valor *default* — constitui um sinal diagnóstico relevante: a complexidade adicional não acrescenta capacidade de generalização neste problema. A causa raiz é estrutural: o *tuning* optimiza para a distribuição sintética 50/50 do *SMOTE*, enquanto o conjunto de teste reproduz a distribuição real (~26.5% *churn*). Este fenómeno de *distribution shift* é particularmente pronunciado em algoritmos *tree-based*, que memorizam os padrões sintéticos com maior facilidade do que os modelos lineares, penalizando a generalização.
+
+A Regressão Logística permanece assim o modelo com melhor desempenho no teste real. Ambos os modelos ficam aquém do objectivo de *Recall* ≥ 0.80, o que será abordado na Aula 20 através do ajuste do limiar de decisão (*threshold*).
 
 ---
 
