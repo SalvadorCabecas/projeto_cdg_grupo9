@@ -73,6 +73,7 @@ As curvas convergem a partir dos ~5000 registos e estabilizam acima do objetivo 
 ---
 
 ## 3. Otimização (*Tuning*)
+
 O algoritmo seleccionado para otimização foi o *Gradient Boosting*, com base nas curvas de aprendizagem da Aula 18 que revelaram convergência real entre treino e validação (Gap CV = 0.017) e F1 de validação de 0.8446, já acima do objectivo de 0.75 definido em M1. O potencial de melhoria com *tuning* foi considerado superior ao da Regressão Logística, que opera próximo do seu limite estrutural linear.
 
 A técnica de otimização adoptada foi o *RandomizedSearchCV* com 50 iterações e validação cruzada estratificada K=5 integrada (*scoring='f1'*), totalizando 250 *fits*. O espaço de pesquisa foi definido de forma conservadora para prevenir *overfitting* à distribuição sintética gerada pelo *SMOTE*: `max_depth` limitado ao intervalo [3, 5] e `min_samples_split` mínimo de 10. Os parâmetros óptimos encontrados foram: `n_estimators=287`, `max_depth=3`, `learning_rate=0.1353`, `subsample=0.7465`, `min_samples_split=19`.
@@ -87,11 +88,84 @@ A Regressão Logística permanece assim o modelo com melhor desempenho no teste 
 
 ## 4. Avaliação do Modelo Final
 
+O modelo final adoptado é a **Regressão Logística com threshold ajustado para 0.31** (em vez do default 0.50). A decisão baseou-se em três critérios: melhor F1-Teste e AUC-ROC no conjunto de teste real entre todos os algoritmos testados (F1=0.6048, AUC=0.8340); coeficientes diretamente interpretáveis em termos de negócio; e capacidade de ajuste do threshold para satisfazer o objetivo de Recall ≥ 0.80 sem reentrenar o modelo.
+
 ### 4.1. Matriz de Confusão / Erros
-*(a preencher na Aula 20 — 17/04/2026)*
+
+Com o threshold de 0.31, o modelo final obteve os seguintes resultados no conjunto de teste (1409 instâncias reais):
+
+| | Previsto Não-Churn | Previsto Churn |
+|---|---|---|
+| **Real Não-Churn** | TN = 725 | FP = 310 |
+| **Real Churn** | FN = 72 | TP = 302 |
+
+| Métrica | Threshold=0.50 (baseline) | Threshold=0.31 (modelo final) | Δ |
+|---|---|---|---|
+| F1-Score (Churn) | 0.6048 | **0.6126** | +0.0078 |
+| Recall (Churn) | 0.6096 | **0.8075** | +0.1979 |
+| Precision (Churn) | 0.6000 | 0.4935 | −0.1065 |
+| AUC-ROC | 0.8340 | 0.8340 | — |
+| TP (churners identificados) | 228 / 374 (61.0%) | **302 / 374 (80.7%)** | +74 |
+| FN (churners perdidos) | 146 / 374 (39.0%) | **72 / 374 (19.3%)** | −74 |
+
+**Objetivo Recall ≥ 0.80: ✅ Atingido (0.8075)**
+
+O ajuste do threshold de 0.50 para 0.31 representou uma troca deliberada: a Precision desceu de 0.60 para 0.49 (mais alarmes falsos — FP passaram de 152 para 310), mas o Recall subiu de 0.61 para 0.81 (menos churners perdidos — FN reduziram de 146 para 72). Esta troca é justificada pelo contexto de negócio: o custo de não detetar um cliente que vai sair (FN) é substancialmente superior ao custo de uma campanha de retenção desnecessária (FP).
+
+**Interpretação dos Falsos Negativos (72 churners não detetados):**
+
+Os 72 clientes que o modelo não identificou apresentam um perfil distinto dos 302 churners detetados:
+
+| Variável | FN (médio) | TP (médio) | Diferença |
+|---|---|---|---|
+| tenure | 36.25 meses | 11.75 meses | +24.50 |
+| LTV_Estático | 2 968 € | 1 028 € | +1 940 € |
+| RiskScore | 3.11 | 4.97 | −1.86 |
+| ChargesPerService | 14.86 € | 20.64 € | −5.78 € |
+| TotalServices | 3.89 | 2.78 | +1.11 |
+| Probabilidade média prevista | 0.1751 | 0.6411 | — |
+
+**O modelo falha sistematicamente em clientes com tenure elevado (média 36 meses), LTV alto (média 2968€) e RiskScore moderado (3.11).** São clientes de longa data que, do ponto de vista do modelo, apresentam sinais de fidelidade (tenure alto, mais serviços), mas que acabam por sair — possivelmente por razões não capturadas nas variáveis disponíveis (ex.: qualidade do serviço, oferta competitiva, mudança de circunstâncias pessoais). A probabilidade média prevista neste grupo é 0.18 — abaixo do threshold de 0.31 — confirmando que são casos de incerteza genuína para o modelo linear.
+
+> Ver figura: `reports/figures/matriz_confusao.png`
+
+---
 
 ### 4.2. Importância dos Atributos (*Feature Importance*)
-*(a preencher na Aula 20 — 17/04/2026)*
+
+Os coeficientes da Regressão Logística (calculados após `StandardScaler`) quantificam o peso de cada variável na decisão de churn. Coeficiente positivo significa que a variável aumenta a probabilidade prevista de churn; negativo significa que a reduz.
+
+**Top 10 variáveis que mais AUMENTAM o risco de churn:**
+
+| Variável | Coeficiente | Interpretação de negócio |
+|---|---|---|
+| **RiskScore** | +3.006 | Variável composta de maior peso — confirma que contrato+internet+tenure combinados são mais preditivos do que qualquer variável isolada |
+| MultipleLines_Yes | +2.163 | Ter múltiplas linhas associado a maior churn — possivelmente clientes com mais necessidades e mais exigentes |
+| StreamingTV_Yes | +2.099 | Serviços de streaming associados a perfis de maior volatilidade |
+| StreamingMovies_Yes | +2.068 | Idem — combinação de streaming TV + Movies como sinal de risco |
+| TenureCohort_Loyal | +1.946 | Efeito de codificação: após one-hot com drop_first, este coeficiente é relativo à categoria base omitida |
+| DeviceProtection_Yes | +1.896 | Proteção de dispositivo — associada ao segmento Fiber Optic mais volátil |
+| OnlineBackup_Yes | +1.817 | Backup online — serviço premium com custo acrescido |
+| TechSupport_Yes | +1.612 | Suporte técnico — clientes que recorrem a suporte têm mais fricção |
+| OnlineSecurity_Yes | +1.577 | Segurança online — perfil premium mais propenso a comparar ofertas |
+| TenureCohort_Mature | +1.468 | Clientes na fase Mature (25–48m) ainda com risco relevante |
+
+**Top variáveis que mais REDUZEM o risco de churn:**
+
+| Variável | Coeficiente | Interpretação de negócio |
+|---|---|---|
+| **TotalServices** | **−7.219** | Principal fator de retenção — quanto mais serviços subscritos, maior o *switching cost* e menor o churn |
+| tenure | −1.699 | Antiguidade como barreira de saída — clientes mais antigos têm maior inércia |
+| MonthlyCharges | −0.445 | Valor mensal elevado isolado (sem outros serviços) não é o principal driver de saída |
+| InternetService_Fiber optic | −0.371 | Efeito isolado da fibra — quando controlado pelo RiskScore, a fibra por si não é fator de risco |
+
+**Validação do Objetivo SMART 2:**
+O `RiskScore` é a variável com maior coeficiente absoluto positivo (+3.006), confirmando que contribui significativamente para o poder preditivo do modelo final. Combinado com a taxa de 70.2% de churn no nível máximo (validada na EDA), o Objetivo 2 está completamente cumprido.
+
+**Insight crítico — TotalServices como principal protetor:**
+O coeficiente de −7.219 do `TotalServices` é o mais forte em valor absoluto de todo o modelo. Este resultado confirma empiricamente o conceito de *switching cost*: cada serviço adicional subscrito cria uma barreira de saída. A recomendação de negócio direta é clara — incentivar a adoção de serviços adicionais nos primeiros 12 meses é a intervenção com maior retorno esperado na retenção de clientes.
+
+> Ver figura: `reports/figures/feature_importance.png`
 
 ---
 
@@ -100,5 +174,4 @@ A Regressão Logística permanece assim o modelo com melhor desempenho no teste 
 
 ---
 
-*Última atualização: 10/04/2026 
-
+*Última atualização: 15/04/2026      
