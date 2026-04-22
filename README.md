@@ -42,7 +42,7 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados:
 | Item | Ligação |
 | :--- | :--- |
 | Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
-| Caderno de exploração e preparação | `notebooks/1-0-eda-limpeza.ipynb` |
+| Caderno de exploração e preparação | [`notebooks/1-0-eda-limpeza.ipynb`](https://www.kaggle.com/code/joscabeas/1-0-eda-limpeza) |
 | Caderno de modelação e treino | `notebooks/2-0-modelacao-treino.ipynb` |
 
 ---
