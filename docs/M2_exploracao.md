@@ -1,4 +1,4 @@
-# Milestone 2: Análise Exploratória e Engenharia de Atributos
+# *Milestone* 2: Análise Exploratória e Engenharia de Atributos
 
 ## 1. Análise Exploratória de Dados (EDA)
 
@@ -19,7 +19,7 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 | `MonthlyCharges` vs `Churn` | **+0.19** | Correlação positiva moderada — faturas mensais mais elevadas associadas a maior propensão de saída. |
 | `TotalCharges` vs `tenure` | **+0.83** | Multicolinearidade elevada — selecionar apenas uma destas variáveis em modelos lineares (M3) para evitar redundância. |
 
-### 1.3. Conclusões da Análise Bivariada
+### 1.3. Conclusões da Análise Bivariada (Aula 27/02)
 1. **Risco Temporal:** O abandono concentra-se no **primeiro ano de contrato** ("zona de perigo": meses 0–12), estabilizando após os 24 meses.
 2. **Vulnerabilidade Contratual:** O contrato mensal (*Month-to-month*) é o principal ponto de falha, com uma taxa de *Churn* de **~42%** contra menos de **5%** nos contratos anuais.
 3. **Dependência Tecnológica:** Clientes com ***Fiber Optic*** apresentam maior rotatividade do que os de *DSL*, possivelmente pela agressividade competitiva neste segmento *premium*.
@@ -33,7 +33,7 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 
 ## 2. Qualidade dos Dados e Limpeza
 
-### 2.1. Identificação e Auditoria de Dados Omissos
+### 2.1. Identificação e Auditoria de Dados Omissos (Aula 9 — 04/03/2026)
 
 Para garantir a integridade da análise, realizámos uma auditoria exaustiva **antes de qualquer transformação**, para detetar valores nulos reais e "nulos invisíveis" (espaços em branco lidos como texto válido pelo *Pandas*).
 
@@ -49,7 +49,7 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva **a
 | Todas as restantes (19 colunas) | 0 | 0.00% |
 | **Total** | **11** | **0.15%** |
 
-### 2.2. Estratégia de Tratamento dos Dados em Falta
+### 2.2. Estratégia de Tratamento dos Dados em Falta (Aula 9 — 04/03/2026)
 
 #### Decisão: Imputação por Valor Constante (`0.0`)
 
@@ -69,7 +69,7 @@ Para garantir a integridade da análise, realizámos uma auditoria exaustiva **a
    Linhas preservadas    : 7043 / 7043
 ```
 
-### 2.3. Tratamento de *Outliers* e Integridade dos Dados
+### 2.3. Tratamento de *Outliers* e Integridade dos Dados (Aula 10 — 06/03/2026)
 
 #### Análise de *Outliers* pelo Método IQR
 
@@ -123,9 +123,9 @@ df.duplicated().sum() → 0
 * ***Encoding* da variável alvo:** A variável `Churn` foi convertida de qualitativa (Yes/No) para binária (`int64`: 0 e 1), essencial para correlações e algoritmos de *machine learning*.
 * **Tipificação categórica:** 16 variáveis qualitativas foram convertidas para o tipo `category`, reduzindo o consumo de memória e sinalizando a natureza discreta das variáveis aos algoritmos.
 * **Conversão crítica:** `TotalCharges` convertida de `object` para `float64` com imputação de `0.0` nos 11 casos de `tenure = 0`.
-* **Escalonamento de atributos — decisão fundamentada:** Avaliámos a necessidade de normalizar/padronizar as variáveis numéricas (`tenure`, `MonthlyCharges`, `LTV_Estatico`, `ChargesPerService`). **Decisão: não aplicado nesta fase.** Random Forest e XGBoost — os modelos principais de M3 — são baseados em árvores de decisão e são invariantes à escala. Para a Regressão Logística (*baseline*), o `StandardScaler` será integrado no pipeline de treino em M3, com *fit* exclusivo no conjunto de treino, evitando *data leakage*. Manter os valores originais na fase de EDA preserva também a legibilidade durante a exploração (`tenure` em meses, `MonthlyCharges` em €).
+* **Escalonamento de atributos — decisão fundamentada:** Avaliámos a necessidade de normalizar/padronizar as variáveis numéricas (`tenure`, `MonthlyCharges`, `LTV_Estatico`, `ChargesPerService`). **Decisão: não aplicado nesta fase.** Algoritmos baseados em árvores de decisão — como Random Forest, Gradient Boosting e XGBoost, todos candidatos a avaliar em M3 — são invariantes à escala. Para modelos sensíveis à escala (Regressão Logística, KNN, SVM), o `StandardScaler` será integrado no *pipeline* de treino em M3, com *fit* exclusivo no conjunto de treino, evitando *data leakage*. Manter os valores originais na fase de EDA preserva também a legibilidade durante a exploração (`tenure` em meses, `MonthlyCharges` em €).
 
-### 4.2. Criação de Novos Atributos — Fase 1
+### 4.2. Criação de Novos Atributos — Fase 1 (Aula 11 — 11/03/2026)
 
 Criámos 3 novos atributos para enriquecer o poder preditivo do modelo, passando o *dataset* de **21 para 24 colunas**.
 
@@ -186,7 +186,7 @@ Serviços considerados: `PhoneService`, `MultipleLines`, `OnlineSecurity`, `Onli
 
 ---
 
-### 4.3. Criação de Novos Atributos — Fase 2
+### 4.3. Criação de Novos Atributos — Fase 2 (Aula 12 — 13/03/2026)
 
 Criámos 2 atributos adicionais que combinam informação de múltiplas colunas, gerando conhecimento que não existe diretamente no *dataset* original. O *dataset* passou de **24 para 26 colunas**.
 
@@ -243,11 +243,11 @@ Criámos 2 atributos adicionais que combinam informação de múltiplas colunas,
 
 | Atributo | Tipo | Intervalo | O que mede |
 | :--- | :--- | :---: | :--- |
-| `TenureCohort` | `categórica` (4 grupos) | *Early* → *Loyal* | Fase do ciclo de vida do cliente |
-| `TotalServices` | Numérica (`int64`) | 0 – 8 | Grau de *lock-in* comportamental |
-| `LTV_Estatico` | Numérica (`float64`) | 0 – 8550 € | Valor financeiro acumulado estimado |
-| `ChargesPerService` | Numérica (`float64`) | 7.65 – 36.12 € | Rácio custo/serviço (*poor value*) |
-| `RiskScore` | Numérica (`int64`) | 0 – 6 | Índice de risco composto de abandono |
+| `TenureCohort` | `category` (4 grupos) | *Early* → *Loyal* | Fase do ciclo de vida do cliente |
+| `TotalServices` | `int64` | 0 – 8 | Grau de *lock-in* comportamental |
+| `LTV_Estatico` | `float64` | 0 – 8550 € | Valor financeiro acumulado estimado |
+| `ChargesPerService` | `float64` | 7.65 – 36.12 € | Rácio custo/serviço (*poor value*) |
+| `RiskScore` | `int64` | 0 – 6 | Índice de risco composto de abandono |
 
 ### 4.5. Correlação das Novas Variáveis com *Churn*
 
@@ -260,7 +260,7 @@ Criámos 2 atributos adicionais que combinam informação de múltiplas colunas,
 
 ---
 
-## 5. Seleção de Atributos — *Feature Selection*
+## 5. Seleção de Atributos — *Feature Selection* (Aula 13 — 18/03/2026)
 
 ### 5.1. Verificação de Multicolinearidade
 
@@ -377,4 +377,5 @@ A distribuição 73.5%/26.5% confirma que *Accuracy* não pode ser a métrica de
 
 ---
 
-*Atualizado em: 08/04/2026*
+*Última atualização: 22/04/2026*
+
