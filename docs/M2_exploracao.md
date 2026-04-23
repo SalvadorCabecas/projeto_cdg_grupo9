@@ -378,4 +378,3 @@ A distribuição 73.5%/26.5% confirma que *Accuracy* não pode ser a métrica de
 ---
 
 *Última atualização: 22/04/2026*
-
