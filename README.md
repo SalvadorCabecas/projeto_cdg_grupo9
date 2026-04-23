@@ -18,9 +18,9 @@
 A estrutura deste projeto segue as boas práticas de Ciência de Dados:
 
 - **`data/`**: Armazenamento de dados (dados brutos em `raw/` e processados em `processed/`).
-- **`docs/`**: Documentação técnica dividida por fases (`M1_iniciacao.md`, `M2_exploracao.md`, `M3_modelacao.md`, `M4_conclusoes.md`).
+- **`docs/`**: Documentação técnica dividida por fases (`M1_iniciacao.md`, `M2_exploracao.md`, `M3_modelacao.md`).
 - **`notebooks/`**: Versões exportadas do Kaggle Code, seguindo a ordem numérica das fases.
-- **`src/`**: Código-fonte modular para funções reutilizáveis.
+- **`src/`**: Reservada para código-fonte modular reutilizável (funções de pré-processamento, avaliação, etc.). Não foi utilizada neste projeto porque toda a lógica foi desenvolvida diretamente nos notebooks do Kaggle, não havendo necessidade de partilha de código entre cadernos.
 - **`reports/`**: Figuras e relatórios (`figures/`).
 - **`requirements.txt`**: Bibliotecas necessárias para reprodução do projeto.
 
@@ -42,8 +42,8 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados:
 | Item | Ligação |
 | :--- | :--- |
 | Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
-| Caderno de exploração e preparação | [`notebooks/1-0-eda-limpeza.ipynb`](https://www.kaggle.com/code/joscabeas/1-0-eda-limpeza) |
-| Caderno de modelação e treino | [`notebooks/2-0-modelacao-treino.ipynb`](https://www.kaggle.com/code/joscabeas/2-0-modelacao-treino) |
+| Caderno de exploração e preparação (M2) | `notebooks/1.0_eda_limpeza.ipynb` |
+| Caderno de modelação e treino (M3) | `notebooks/2.0_modelacao_treino.ipynb` |
 
 ---
 
@@ -115,13 +115,14 @@ Divisão estratificada 80/20 (`stratify=y, random_state=42`). Balanceamento de c
 
 | Algoritmo | F1 Treino | F1 Teste | AUC-ROC | Desvio F1 |
 | :--- | :---: | :---: | :---: | :---: |
-| Regressão Logística (referência) | 0.8436 | **0.6048** | **0.8340** | 0.2388 |
-| Gradiente Progressivo | 0.8588 | 0.5898 | 0.8319 | 0.2690 |
-| Floresta Aleatória | 0.9982 | 0.5812 | 0.8194 | 0.4169 |
-| Naïve Bayes | 0.7684 | 0.5799 | 0.8077 | 0.1885 |
-| XGBoost | 0.9606 | 0.5677 | 0.8009 | 0.3930 |
-| KNN | 0.8758 | 0.5398 | 0.7690 | 0.3360 |
-| Árvore de Decisão | 0.9983 | 0.4881 | 0.6502 | 0.5102 |
+| Regressão Logística (referência) | 0.8433 | **0.6032** | **0.8340** | 0.2401 |
+| Gradiente Progressivo | 0.8602 | 0.5949 | 0.8325 | 0.2653 |
+| SVM (RBF) | 0.8535 | 0.5858 | 0.8138 | 0.2677 |
+| Floresta Aleatória | 0.9982 | 0.5815 | 0.8205 | 0.4167 |
+| Naïve Bayes | 0.7682 | 0.5804 | 0.8076 | 0.1878 |
+| XGBoost | 0.9610 | 0.5646 | 0.8066 | 0.3964 |
+| KNN | 0.8759 | 0.5387 | 0.7687 | 0.3372 |
+| Árvore de Decisão | 0.9983 | 0.4756 | 0.6413 | 0.5227 |
 
 ### Modelo Final
 
@@ -145,11 +146,16 @@ Detalhes completos em `docs/M3_modelacao.md`.
 
 ### Resposta ao Problema
 
-*A preencher após conclusão do M3.*
+O modelo construído — **Regressão Logística com limiar de decisão ajustado para 0.31** — demonstra que é possível prever o abandono de clientes com base em variáveis contratuais, de serviço e de faturação, identificando **302 dos 374 churners reais (80.7%)** no conjunto de teste. O objetivo SMART de F1-Score ≥ 0.75 não foi atingido (resultado: 0.61), mas o objetivo operacional de Recall ≥ 0.80 foi cumprido, que é o critério mais relevante para o negócio: minimizar os clientes em risco não detetados.
+
+A análise revelou que os principais fatores de risco são o **tipo de contrato mensal** (taxa de abandono ~42%), a **antiguidade reduzida** (clientes com ≤ 12 meses têm taxa de 47.4%) e o **RiskScore elevado** (nível máximo: 70.2%). O principal fator protetor é a **subscrição de múltiplos serviços** (`TotalServices`, coeficiente −7.281): cada serviço adicional cria uma barreira de saída.
 
 ### Recomendações
 
-*A preencher após conclusão do M3.*
+1. **Intervir nos primeiros 12 meses:** Programas de *onboarding* e incentivos à subscrição de serviços adicionais para os clientes novos, que apresentam taxa de abandono 5× superior à dos clientes fidelizados.
+2. **Estratégia de *bundling*:** Ofertas combinadas com desconto têm o maior retorno esperado na retenção — empiricamente confirmado pelo coeficiente de `TotalServices`.
+3. **Vigilância de clientes de alto LTV:** Os 72 churners não detetados têm valor médio de 2 968€. Recomenda-se monitorização paralela por critérios de negócio diretos (tenure alto + contrato mensal + sem renovação recente).
+4. **Ajuste dinâmico do limiar:** O threshold de 0.31 maximiza o Recall; em campanhas de custo elevado, deve ser reajustado conforme o orçamento disponível para equilibrar Precisão e Recall.
 
 ---
 
@@ -187,4 +193,4 @@ Detalhes completos em `docs/M3_modelacao.md`.
 
 ---
 
-*Última atualização: 22/04/2026 
+*Última atualização: 23/04/2026 
