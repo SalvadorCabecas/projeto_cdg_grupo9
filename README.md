@@ -109,7 +109,7 @@ Detalhes completos em `docs/M2_exploracao.md`.
 
 ### Estratégia
 
-Divisão estratificada 80/20 (`stratify=y, random_state=42`). Balanceamento de classes com SMOTE aplicado exclusivamente ao conjunto de treino (~4508 por classe). Normalização com `StandardScaler` ajustado no treino. Métrica principal: F1-Score na classe de abandono; métricas complementares: AUC-ROC e Recall.
+Divisão estratificada 80/20 (`stratify=y, random_state=42`). Balanceamento de classes com SMOTE aplicado exclusivamente ao conjunto de treino (~4139 por classe). Normalização com `StandardScaler` ajustado no treino. Métrica principal: F1-Score na classe de abandono; métricas complementares: AUC-ROC e Recall.
 
 ### Algoritmos Avaliados
 
