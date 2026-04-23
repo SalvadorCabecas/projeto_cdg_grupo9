@@ -288,7 +288,7 @@ Identificámos pares de variáveis com correlação elevada (|r| > 0.80) que rep
    Linhas      : 7043
    Colunas     : 24  (21 originais + 5 novos atributos − 2 removidos)
    Nulos       : 0
-   Duplicados  : 27 (clientes distintos com perfil coincidente — não são erros)
+   Duplicados  : 42 linhas com perfil coincidente (clientes distintos — `customerID` único em todos os casos, não são erros)
    Ficheiro    : data/processed/telco_churn_processed.csv
 ```
 
