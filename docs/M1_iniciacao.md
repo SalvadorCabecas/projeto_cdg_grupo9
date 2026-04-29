@@ -32,6 +32,7 @@ Construir um modelo de classificação supervisionada para prever o abandono de 
 ## 4. Metodologia de Gestão
 
 **Divisão de tarefas:**
+
 - Salvador Cabeças — infraestrutura, engenharia de dados e gestão do repositório.
 - Vasco Coelho — documentação técnica e modelação estatística.
 
@@ -43,7 +44,7 @@ Construir um modelo de classificação supervisionada para prever o abandono de 
 
 ### 5.1. Disponibilidade e Origem
 
-O conjunto de dados *Telco Customer Churn* foi disponibilizado publicamente pela IBM no Kaggle e pode ser acedido em: https://www.kaggle.com/datasets/blastchar/telco-customer-churn. Os dados foram importados diretamente para o ambiente Kaggle e a versão processada é mantida no repositório em `data/processed/`. O conjunto de dados original encontra-se em `data/raw/`.
+O conjunto de dados *Telco Customer Churn* foi disponibilizado publicamente pela IBM no Kaggle e pode ser acedido em: <https://www.kaggle.com/datasets/blastchar/telco-customer-churn>. Os dados foram importados diretamente para o ambiente Kaggle e a versão processada é mantida no repositório em `data/processed/`. O conjunto de dados original encontra-se em `data/raw/`.
 
 | Característica | Valor |
 | :--- | :--- |
@@ -167,7 +168,7 @@ Após carregamento do conjunto de dados, foram identificados os seguintes proble
 
 ## 10. Referências
 
-1. IBM. (s.d.). *Telco Customer Churn* [Conjunto de dados]. Kaggle. Disponível em: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+1. IBM. (s.d.). *Telco Customer Churn* [Conjunto de dados]. Kaggle. Disponível em: <https://www.kaggle.com/datasets/blastchar/telco-customer-churn>
 
 2. Verbeke, W., Dejaeger, K., Martens, D., Hur, J., & Baesens, B. (2012). New insights into churn prediction in the telecommunication sector: A profit driven data mining approach. *European Journal of Operational Research*, 218(1), 211–229.
 
@@ -179,4 +180,4 @@ Após carregamento do conjunto de dados, foram identificados os seguintes proble
 
 ---
 
-*Última atualização: 22/04/2026*
+Última atualização: 29/04/2026
