@@ -25,7 +25,7 @@ O modelo *baseline* foi implementado com Regressão Logística (`max_iter=1000, 
 Após treino no conjunto balanceado (*SMOTE* + `StandardScaler`) e avaliação no teste real, os resultados foram os seguintes:
 
 | Classe | *Precision* | *Recall* | *F1-Score* | Support |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Não-*Churn* | 0.86 | 0.85 | 0.85 | 1035 |
 | ***Churn*** | **0.60** | **0.61** | **0.60** | **374** |
 | Macro avg | 0.73 | 0.73 | 0.73 | 1409 |
@@ -42,7 +42,7 @@ O *AUC-ROC* de 0.834 confirma que o modelo separa as classes com qualidade razo�
 Para superar o *baseline*, foram treinados e avaliados 7 algoritmos de maior complexidade, todos com parâmetros base, usando o mesmo conjunto de treino balanceado (*SMOTE* + `StandardScaler`) e avaliados no mesmo conjunto de teste real.
 
 | Algoritmo | Parâmetros Base | F1 (Treino) | F1 (Teste) \| *AUC-ROC* | Gap F1 | Notas |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | Logistic Regression (*baseline*) | `max_iter=1000` | 0.8433 | 0.6032 \| 0.8340 | 0.2401 | Melhor F1-Teste; beneficia do `StandardScaler` |
 | Gradiente Progressivo | `n_estimators=100` | 0.8602 | 0.5949 \| 0.8325 | 0.2653 | 2º melhor *AUC*; curvas de aprendizagem convergentes |
 | Random Forest | `n_estimators=100` | 0.9982 | 0.5815 \| 0.8205 | 0.4167 | *Overfitting* severo |
@@ -61,7 +61,7 @@ Apesar da Regressão Logística ter obtido o melhor F1-Teste, o **Gradiente Prog
 No que diz respeito ao diagnóstico de generalização, as curvas de aprendizagem do Gradiente Progressivo (geradas por *cross-validation* estratificado K=5 dentro do conjunto de treino balanceado) revelaram os seguintes resultados:
 
 | Métrica | Valor |
-|---|---|
+| --- | --- |
 | F1 Treino (100% dos dados) | 0.8546 ± 0.0097 |
 | F1 Validação CV (100%) | 0.8546 ± 0.0097 |
 | Gap treino-validação | 0.0000 |
@@ -88,7 +88,7 @@ Para confirmar a robustez desta conclusão, foi realizado um segundo ciclo de ot
 A comparação final dos três modelos avaliados confirma a superioridade da Regressão Logística:
 
 | Modelo | F1 *Churn* | *AUC-ROC* | *Recall* | *Precisão* |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Regressão Logística (*baseline*) | **0.6032** ⭐ | **0.8340** | 0.6096 | 0.5969 |
 | *Gradient Boosting* optimizado | 0.5707 | 0.8223 | 0.5882 | 0.5542 |
 | SVM (RBF) optimizado | 0.5864 | 0.8184 | 0.5668 | 0.6074 |
@@ -106,12 +106,12 @@ O modelo final adoptado é a **Regressão Logística com threshold ajustado para
 Com o threshold de 0.31, o modelo final obteve os seguintes resultados no conjunto de teste (1409 instâncias reais):
 
 | | Previsto Não-Churn | Previsto Churn |
-|---|---|---|
+| --- | --- | --- |
 | **Real Não-Churn** | TN = 725 | FP = 310 |
 | **Real Churn** | FN = 72 | TP = 302 |
 
 | Métrica | Threshold=0.50 (baseline) | Threshold=0.31 (modelo final) | Δ |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | F1-Score (Churn) | 0.6032 | **0.6126** | +0.0094 |
 | Recall (Churn) | 0.6096 | **0.8075** | +0.1979 |
 | Precision (Churn) | 0.5969 | 0.4935 | −0.1034 |
@@ -119,7 +119,7 @@ Com o threshold de 0.31, o modelo final obteve os seguintes resultados no conjun
 | TP (churners identificados) | 228 / 374 (61.0%) | **302 / 374 (80.7%)** | +74 |
 | FN (churners perdidos) | 146 / 374 (39.0%) | **72 / 374 (19.3%)** | −74 |
 
-**Objetivo Recall ≥ 0.80: ✅ Atingido (0.8075)**
+### Objetivo Recall ≥ 0.80: ✅ Atingido (0.8075)
 
 O ajuste do threshold de 0.50 para 0.31 representou uma troca deliberada: a Precision desceu de 0.60 para 0.49 (mais alarmes falsos — FP passaram de 154 para 310), mas o Recall subiu de 0.61 para 0.81 (menos churners perdidos — FN reduziram de 146 para 72). Esta troca é justificada pelo contexto de negócio: o custo de não detetar um cliente que vai sair (FN) é substancialmente superior ao custo de uma campanha de retenção desnecessária (FP).
 
@@ -128,7 +128,7 @@ O ajuste do threshold de 0.50 para 0.31 representou uma troca deliberada: a Prec
 Os 72 clientes que o modelo não identificou apresentam um perfil distinto dos 302 churners detetados:
 
 | Variável | FN (médio) | TP (médio) | Diferença |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | tenure | 36.25 meses | 11.75 meses | +24.50 |
 | LTV_Estático | 2 968 € | 1 028 € | +1 940 € |
 | RiskScore | 3.11 | 4.97 | −1.86 |
@@ -149,7 +149,7 @@ Os coeficientes da Regressão Logística (calculados após `StandardScaler`) qua
 **Top 10 variáveis que mais AUMENTAM o risco de churn:**
 
 | Variável | Coeficiente | Interpretação de negócio |
-|---|---|---|
+| --- | --- | --- |
 | **RiskScore** | +3.070 | Variável composta de maior peso — confirma que contrato+internet+tenure combinados são mais preditivos do que qualquer variável isolada |
 | MultipleLines_Yes | +2.183 | Ter múltiplas linhas associado a maior churn — possivelmente clientes com mais necessidades e mais exigentes |
 | StreamingTV_Yes | +2.121 | Serviços de streaming associados a perfis de maior volatilidade |
@@ -164,7 +164,7 @@ Os coeficientes da Regressão Logística (calculados após `StandardScaler`) qua
 **Top variáveis que mais REDUZEM o risco de churn:**
 
 | Variável | Coeficiente | Interpretação de negócio |
-|---|---|---|
+| --- | --- | --- |
 | **TotalServices** | **−7.281** | Principal fator de retenção — quanto mais serviços subscritos, maior o *switching cost* e menor o churn |
 | tenure | −1.694 | Antiguidade como barreira de saída — clientes mais antigos têm maior inércia |
 | MonthlyCharges | −0.480 | Valor mensal elevado isolado (sem outros serviços) não é o principal driver de saída |
@@ -187,7 +187,7 @@ O coeficiente de −7.281 do `TotalServices` é o mais forte em valor absoluto d
 A fase de modelação testou 8 algoritmos de classificação, aplicou otimização de hiperparâmetros por pesquisa aleatória e ajustou o limiar de decisão para satisfazer os objetivos definidos em M1. O modelo final selecionado é a **Regressão Logística com limiar de decisão ajustado para 0.31**.
 
 | Métrica | Objetivo (M1) | Resultado Final | Estado |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | F1-Score (abandono) | ≥ 0.75 | **0.6126** | ⚠️ Não atingido |
 | Recall (abandono) | ≥ 0.80 | **0.8075** | ✅ Atingido |
 | AUC-ROC | — | **0.8340** | ✅ Sólido |
@@ -208,7 +208,7 @@ A Regressão Logística foi selecionada face aos restantes candidatos com base e
 ### 5.3. Respostas às Questões de Investigação
 
 | Questão | Resposta |
-|---|---|
+| --- | --- |
 | **Q1** — Variáveis com maior associação ao abandono | RiskScore (+3.070), TotalServices (−7.281) e tenure (−1.694) são as variáveis de maior peso no modelo final. Na EDA, Contract_Month-to-month (taxa de abandono ~42%) e TenureCohort_New (taxa ~47.4%) foram os sinais mais fortes. |
 | **Q2** — Limiar de antiguidade com risco elevado | Clientes com tenure ≤ 12 meses apresentam taxa de abandono de 47.4% — cerca de 5× superior à dos clientes com mais de 48 meses (9.1%). O limiar de 12 meses é operacionalmente relevante. |
 | **Q3** — Contrato mensal + ausência de suporte técnico | Parcialmente confirmada, com uma nuance importante. Clientes com contrato mensal atingem ~42% de abandono — risco claramente superior. Quanto ao TechSupport, o modelo revela um resultado contraintuitivo: `TechSupport_Yes` tem coeficiente **positivo (+1.630)**, o que significa que **ter** suporte técnico está associado a mais churn, não menos. Este resultado não contradiz a Q3 — reflecte um mecanismo diferente: clientes que recorrem a suporte técnico estão, por definição, a experienciar problemas de serviço (fricção), e essa fricção é um preditor de saída mais forte do que a ausência do serviço em si. A interação entre contrato mensal, internet Fiber Optic e tenure curto é capturada de forma composta pelo `RiskScore` (nível 6: 70.2% de abandono). |
@@ -238,4 +238,4 @@ A Regressão Logística foi selecionada face aos restantes candidatos com base e
 
 ---
 
-*Última atualização: 23/04/2026*
+Última atualização: 29/04/2026
