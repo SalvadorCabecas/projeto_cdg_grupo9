@@ -4,6 +4,12 @@
 
 ---
 
+## Resumo Executivo
+
+Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clientes** de uma operadora de telecomunicações que estão prestes a cancelar o contrato ,antes que estes saiam. Com base no perfil contratual e de serviços de 7043 clientes reais, o modelo permite à empresa focar as campanhas de retenção nos clientes de maior risco, evitando perdas de receita de forma eficiente e dirigida. O principal fator de proteção descoberto é a subscrição de múltiplos serviços: cada serviço adicional cria uma barreira de saída que reduz significativamente a probabilidade de abandono.
+
+---
+
 ## Equipa
 
 | Nome | Número de Aluno |
@@ -13,16 +19,36 @@
 
 ---
 
-## Organização do Repositório
+## Resultado Final em Linguagem de Negócio
 
-A estrutura deste projeto segue as boas práticas de Ciência de Dados:
+| O que o modelo faz | Resultado |
+| :--- | :--- |
+| Identifica clientes em risco de abandono | **302 em cada 374** clientes que vão sair são detetados (80.7%) |
+| Taxa de deteção (Recall) | **8 em cada 10** clientes em risco de abandono reais identificados antes de saírem |
+| Poder discriminativo (AUC-ROC) | Se escolhermos dois clientes ao acaso — um que vai sair e outro que vai ficar — o modelo distingue-os corretamente **83% das vezes** |
+| Principal fator de risco | Contrato mensal + Fibra ótica + < 12 meses → **70% de probabilidade de abandono** |
+| Principal fator de proteção | Cada serviço adicional subscrito **reduz significativamente** o risco de saída |
+| Clientes de alto risco não detetados | 72 clientes com LTV médio de **2 968€** — monitorização paralela recomendada |
 
-- **`data/`**: Armazenamento de dados (dados brutos em `raw/` e processados em `processed/`).
-- **`docs/`**: Documentação técnica dividida por fases (`M1_iniciacao.md`, `M2_exploracao.md`, `M3_modelacao.md`).
-- **`notebooks/`**: Versões exportadas do Kaggle Code, seguindo a ordem numérica das fases.
-- **`src/`**: Reservada para código-fonte modular reutilizável (funções de pré-processamento, avaliação, etc.). Não foi utilizada neste projeto porque toda a lógica foi desenvolvida diretamente nos notebooks do Kaggle, não havendo necessidade de partilha de código entre cadernos.
-- **`reports/`**: Figuras e relatórios (`figures/`).
-- **`requirements.txt`**: Bibliotecas necessárias para reprodução do projeto.
+---
+
+## Kaggle
+
+| Item | Ligação |
+| :--- | :--- |
+| Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
+| Caderno de exploração e preparação (M2) | [`notebooks/1.0_eda_limpeza.ipynb`](notebooks/1.0_eda_limpeza.ipynb) |
+| Caderno de modelação e treino (M3) | [`notebooks/2.0_modelacao_treino.ipynb`](notebooks/2.0_modelacao_treino.ipynb) |
+
+## Navegação Rápida
+
+| Documento | Conteúdo |
+| :--- | :--- |
+| [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md) | Problema de negócio, objetivos SMART, dicionário de dados |
+| [`docs/M2_exploracao.md`](docs/M2_exploracao.md) | Análise exploratória, limpeza, engenharia de atributos |
+| [`docs/M3_modelacao.md`](docs/M3_modelacao.md) | Comparação de 8 algoritmos, modelo final, métricas técnicas |
+| [`docs/M4_conclusoes.md`](docs/M4_conclusoes.md) | Síntese de valor, limitações, ética e roteiro futuro |
+| [`reports/figures/`](reports/figures/) | Todas as figuras exportadas (curvas de aprendizagem, matriz de confusão, importância de atributos) |
 
 ---
 
@@ -33,17 +59,29 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados:
 | **M1 — Iniciação** | Compreensão do negócio e dos dados | 24/02/2026 | Concluído |
 | **M2 — Exploração** | Análise exploratória e preparação dos dados | 24/03/2026 | Concluído |
 | **M3 — Modelação** | Modelação e avaliação | 23/04/2026 | Concluído |
-| **M4 — Finalização** | Comunicação e entrega | A definir | Por iniciar |
+| **M4 — Finalização** | Comunicação e entrega | 18/05/2026 | Em curso |
 
 ---
 
-## Kaggle
+## Organização do Repositório
 
-| Item | Ligação |
-| :--- | :--- |
-| Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
-| Caderno de exploração e preparação (M2) | `notebooks/1.0_eda_limpeza.ipynb` |
-| Caderno de modelação e treino (M3) | `notebooks/2.0_modelacao_treino.ipynb` |
+```
+projeto_cdg_grupo9/
+├── data/
+│   ├── raw/                  # Dataset original IBM/Kaggle
+│   └── processed/            # Dataset processado (7043 × 24 colunas)
+├── docs/
+│   ├── M1_iniciacao.md       # Business Understanding
+│   ├── M2_exploracao.md      # Data Preparation
+│   ├── M3_modelacao.md       # Modelling & Evaluation
+│   └── M4_conclusoes.md      # Deployment & Communication
+├── notebooks/
+│   ├── 1.0_eda_limpeza.ipynb       # Exploração e limpeza (M2)
+│   └── 2.0_modelacao_treino.ipynb  # Modelação e treino (M3)
+├── reports/figures/          # Figuras exportadas (PNG)
+├── src/                      # Reservado — não utilizado neste projeto
+└── requirements.txt          # Dependências Python
+```
 
 ---
 
@@ -51,26 +89,24 @@ A estrutura deste projeto segue as boas práticas de Ciência de Dados:
 
 ### Contexto e Problema de Negócio
 
-O setor das telecomunicações caracteriza-se por mercados saturados e elevada concorrência entre operadores. Neste contexto, o abandono de clientes representa uma perda direta de receita recorrente e implica custos operacionais associados à necessidade de substituição dessa base de clientes. A capacidade de identificar, com antecedência, os clientes com maior propensão para o abandono permite à empresa adotar medidas de retenção dirigidas e atempadas, preservando a sua base de clientes de forma eficiente.
+O setor das telecomunicações caracteriza-se por mercados saturados e elevada concorrência. O abandono de clientes representa uma perda direta de receita recorrente e implica custos operacionais significativos. Identificar antecipadamente os clientes com maior propensão para abandonar permite adotar medidas de retenção eficientes e dirigidas.
 
-Este projeto tem como objetivo construir um modelo de classificação supervisionada capaz de prever o abandono de clientes com base nos seus dados contratuais, de serviços e de faturação, utilizando o conjunto de dados público *Telco Customer Churn* disponibilizado pela IBM no Kaggle (7043 clientes, 21 variáveis).
+Este projeto utiliza o conjunto de dados público *Telco Customer Churn* (IBM/Kaggle) com 7043 clientes e 21 variáveis contratuais, de serviços e de faturação.
 
-### Objetivo do Projeto (SMART)
+### Objetivo SMART
 
 Construir um modelo de classificação supervisionada para prever o abandono de clientes, atingindo um F1-Score igual ou superior a 0.75 na classe positiva (abandono = 1) em validação cruzada estratificada com k=5, utilizando o conjunto de dados *Telco Customer Churn* da IBM, até ao dia 23/04/2026.
 
 ### Questões de Investigação
 
-1. Quais as variáveis contratuais e de utilização que apresentam maior associação estatística com o abandono de clientes?
-2. Existe um limiar de antiguidade abaixo do qual a probabilidade de abandono é substancialmente superior?
-3. A combinação de contrato mensal com ausência de serviços de suporte técnico aumenta significativamente a probabilidade de abandono, comparativamente a clientes com contrato anual?
-4. Um índice de risco composto, construído a partir das variáveis contratuais e de serviço, consegue estratificar os clientes de forma a que o grupo de risco mais elevado apresente uma taxa de abandono superior a 60%?
-5. As novas variáveis criadas aumentam o poder preditivo do modelo face às variáveis originais do conjunto de dados?
-6. É possível atingir uma taxa de deteção igual ou superior a 0.80 para a classe de abandono, recorrendo a técnicas de balanceamento de classes e ajuste do limiar de decisão?
+1. Quais as variáveis com maior associação estatística com o abandono?
+2. Existe um limiar de antiguidade abaixo do qual o risco é substancialmente superior?
+3. A combinação de contrato mensal com ausência de suporte técnico aumenta o risco?
+4. Um índice de risco composto consegue estratificar clientes com taxa de abandono > 60% no nível máximo?
+5. As novas variáveis criadas aumentam o poder preditivo do modelo?
+6. É possível atingir Recall ≥ 0.80 com balanceamento de classes e ajuste do limiar?
 
 ### Observações Iniciais ao Conjunto de Dados
-
-Na análise inicial ao conjunto de dados, foram identificados os seguintes aspetos:
 
 - **Dimensão:** 7043 registos e 21 variáveis; variável alvo `Churn` com desequilíbrio de classes (~73.5% sem abandono / ~26.5% com abandono).
 - **Problema de tipagem:** a variável `TotalCharges` estava armazenada como texto devido à presença de espaços em branco em 11 registos com `tenure = 0`, exigindo conversão e imputação.
@@ -78,67 +114,61 @@ Na análise inicial ao conjunto de dados, foram identificados os seguintes aspet
 - **Ausência de valores nulos reais e duplicados** nas restantes variáveis após auditoria inicial.
 - **Desequilíbrio de classes:** a proporção de 26.5% de abandono determinou a escolha do F1-Score como métrica principal em detrimento da exatidão global.
 
-Detalhes completos em `docs/M1_iniciacao.md`.
+Detalhes completos em [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md).
 
 ---
 
 ## 2. Exploração (Milestone 2)
 
-### Limpeza e Preparação
+### Principais Descobertas
 
-- 11 valores nulos em `TotalCharges` (0.15%) — imputados com `0.0`, por corresponderem a clientes com `tenure = 0` sem faturação acumulada.
-- 0 valores atípicos nas 3 variáveis numéricas (método IQR).
-- `TotalCharges` convertida de texto para número; `Churn` codificada para binária; 16 variáveis convertidas para categórica.
-- 0 registos duplicados.
-- 5 novos atributos criados: `TenureCohort`, `TotalServices`, `LTV_Estatico`, `ChargesPerService` e `RiskScore`.
-- 2 variáveis removidas: `customerID` (sem valor preditivo) e `TotalCharges` (redundante face ao `LTV_Estatico`).
-- Resultado final: 7043 linhas × 24 colunas.
+- **Risco temporal:** clientes nos primeiros 12 meses têm taxa de abandono de **47.4%** — 5× superior à dos clientes fidelizados.
+- **Tipo de contrato:** contratos mensais atingem **~42% de abandono**, contra menos de 5% nos anuais.
+- **Índice de risco:** `RiskScore` nível máximo → **70.2% de abandono** (Q4 validada ✅).
+- **Fidelização por serviços:** 8 serviços subscritos → apenas **5.3% de abandono**.
 
-### Principais Conclusões
+### Atributos Criados
 
-- **Risco temporal:** clientes nos primeiros 12 meses apresentam uma taxa de abandono de **47.4%** — cerca de 5 vezes superior à dos clientes com mais de 4 anos de contrato.
-- **Tipo de contrato:** contratos mensais atingem **~42% de abandono**, contra menos de 5% nos contratos anuais.
-- **Índice de risco:** o `RiskScore` máximo (nível 6) corresponde a uma taxa de abandono de **70.2%** — resposta positiva à questão de investigação 4.
-- **Fidelização por serviços:** clientes com 8 serviços subscritos têm apenas **5.3% de abandono**, contra 43.8% sem serviços adicionais.
+| Atributo | O que mede |
+| :--- | :--- |
+| `TenureCohort` | Fase do ciclo de vida do cliente (Early / Growing / Mature / Loyal) |
+| `TotalServices` | Número de serviços subscritos — indicador de fidelização comportamental |
+| `LTV_Estatico` | Valor acumulado estimado (`MonthlyCharges × tenure`) |
+| `ChargesPerService` | Rácio custo/serviço — indicador de relação custo-benefício desfavorável |
+| `RiskScore` | Índice de risco composto (0–6): contrato + internet + antiguidade |
 
-Detalhes completos em `docs/M2_exploracao.md`.
+Detalhes em [`docs/M2_exploracao.md`](docs/M2_exploracao.md).
 
 ---
 
 ## 3. Modelação (Milestone 3)
 
-### Estratégia
+### Algoritmos Avaliados (8 no total)
 
-Divisão estratificada 80/20 (`stratify=y, random_state=42`). Balanceamento de classes com SMOTE aplicado exclusivamente ao conjunto de treino (~4139 por classe). Normalização com `StandardScaler` ajustado no treino. Métrica principal: F1-Score na classe de abandono; métricas complementares: AUC-ROC e Recall.
+| Algoritmo | F1 Treino | F1 Teste | AUC-ROC |
+| :--- | :---: | :---: | :---: |
+| **Regressão Logística** ⭐ | 0.8433 | **0.6032** | **0.8340** |
+| Gradiente Progressivo | 0.8602 | 0.5949 | 0.8325 |
+| SVM (RBF) | 0.8535 | 0.5858 | 0.8138 |
+| Floresta Aleatória | 0.9982 | 0.5815 | 0.8205 |
+| Naïve Bayes | 0.7682 | 0.5804 | 0.8076 |
+| XGBoost | 0.9610 | 0.5646 | 0.8066 |
+| KNN | 0.8759 | 0.5387 | 0.7687 |
+| Árvore de Decisão | 0.9983 | 0.4756 | 0.6413 |
 
-### Algoritmos Avaliados
-
-| Algoritmo | F1 Treino | F1 Teste | AUC-ROC | Desvio F1 |
-| :--- | :---: | :---: | :---: | :---: |
-| Regressão Logística (referência) | 0.8433 | **0.6032** | **0.8340** | 0.2401 |
-| Gradiente Progressivo | 0.8602 | 0.5949 | 0.8325 | 0.2653 |
-| SVM (RBF) | 0.8535 | 0.5858 | 0.8138 | 0.2677 |
-| Floresta Aleatória | 0.9982 | 0.5815 | 0.8205 | 0.4167 |
-| Naïve Bayes | 0.7682 | 0.5804 | 0.8076 | 0.1878 |
-| XGBoost | 0.9610 | 0.5646 | 0.8066 | 0.3964 |
-| KNN | 0.8759 | 0.5387 | 0.7687 | 0.3372 |
-| Árvore de Decisão | 0.9983 | 0.4756 | 0.6413 | 0.5227 |
-
-### Modelo Final
+### Modelo Final — Resultados em Linguagem de Negócio
 
 **Regressão Logística com limiar de decisão ajustado para 0.31.**
 
-| Métrica | Valor |
-| :--- | :---: |
-| F1-Score (abandono) | **0.6126** |
-| Recall (abandono) | **0.8075** ✅ |
-| Precisão (abandono) | 0.4935 |
-| AUC-ROC | 0.8340 |
-| Clientes em risco identificados | 302 / 374 (80.7%) |
+| Métrica técnica | Significado prático |
+| :--- | :--- |
+| Recall = **0.8075** ✅ | O modelo deteta **8 em cada 10** clientes que vão abandonar |
+| AUC-ROC = **0.8340** | Distingue corretamente clientes em risco de abandono de não-clientes em risco de abandono em **83%** dos casos |
+| Clientes identificados: **302 / 374** | De 374 clientes que foram sair, o modelo sinalizou **302 com antecedência** |
+| Falsos negativos: **72** | 72 clientes saíram sem serem detetados — LTV médio de **2 968€** |
+| Falsos positivos: **310** | 310 campanhas de retenção desnecessárias — custo aceitável face ao risco de não agir |
 
-O ajuste do limiar de 0.50 para 0.31 permitiu atingir o objetivo de Recall ≥ 0.80, identificando mais 74 clientes em risco à custa de um aumento nos falsos positivos — troca justificada pelo custo de negócio de não detetar um cliente que vai abandonar.
-
-Detalhes completos em `docs/M3_modelacao.md`.
+Detalhes técnicos completos em [`docs/M3_modelacao.md`](docs/M3_modelacao.md).
 
 ---
 
@@ -146,36 +176,46 @@ Detalhes completos em `docs/M3_modelacao.md`.
 
 ### Resposta ao Problema
 
-O modelo construído — **Regressão Logística com limiar de decisão ajustado para 0.31** — demonstra que é possível prever o abandono de clientes com base em variáveis contratuais, de serviço e de faturação, identificando **302 dos 374 churners reais (80.7%)** no conjunto de teste. O objetivo SMART de F1-Score ≥ 0.75 não foi atingido (resultado: 0.61), mas o objetivo operacional de Recall ≥ 0.80 foi cumprido, que é o critério mais relevante para o negócio: minimizar os clientes em risco não detetados.
-
-A análise revelou que os principais fatores de risco são o **tipo de contrato mensal** (taxa de abandono ~42%), a **antiguidade reduzida** (clientes com ≤ 12 meses têm taxa de 47.4%) e o **RiskScore elevado** (nível máximo: 70.2%). O principal fator protetor é a **subscrição de múltiplos serviços** (`TotalServices`, coeficiente −7.281): cada serviço adicional cria uma barreira de saída.
+O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80.7%), dando à empresa uma janela de intervenção antes que a decisão de sair seja irreversível. O objetivo de Recall ≥ 0.80 foi atingido — o critério de negócio mais relevante, que minimiza os clientes em risco não detetados.
 
 ### Recomendações
 
-1. **Intervir nos primeiros 12 meses:** Programas de *onboarding* e incentivos à subscrição de serviços adicionais para os clientes novos, que apresentam taxa de abandono 5× superior à dos clientes fidelizados.
-2. **Estratégia de *bundling*:** Ofertas combinadas com desconto têm o maior retorno esperado na retenção — empiricamente confirmado pelo coeficiente de `TotalServices`.
-3. **Vigilância de clientes de alto LTV:** Os 72 churners não detetados têm valor médio de 2 968€. Recomenda-se monitorização paralela por critérios de negócio diretos (tenure alto + contrato mensal + sem renovação recente).
-4. **Ajuste dinâmico do limiar:** O threshold de 0.31 maximiza o Recall; em campanhas de custo elevado, deve ser reajustado conforme o orçamento disponível para equilibrar Precisão e Recall.
+1. **Intervir nos primeiros 12 meses:** taxa de abandono de 47.4% nesta fase — 5× superior à dos clientes fidelizados. Programas de acolhimento inicial e incentivos à subscrição de serviços adicionais têm o maior retorno.
+2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente TotalServices = −7.281). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
+3. **Vigilância paralela de alto LTV:** os 72 clientes em risco de abandono não detetados têm LTV médio de 2 968€. Recomenda-se monitorização por critérios diretos: tenure alto + contrato mensal + sem renovação recente.
+4. **Ajuste dinâmico do limiar:** o threshold de 0.31 maximiza o Recall. Em campanhas de custo elevado, deve ser reajustado para equilibrar Precisão e Recall.
+
+Análise completa em [`docs/M4_conclusoes.md`](docs/M4_conclusoes.md).
 
 ---
 
 ## Como Reproduzir este Projeto
 
-1. Clonar o repositório: `git clone https://github.com/SalvadorCabecas/projeto_cdg_grupo9`
-2. Instalar as dependências: `pip install -r requirements.txt`
-3. Executar os cadernos na pasta `notebooks/` seguindo a ordem numérica.
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/SalvadorCabecas/projeto_cdg_grupo9
+
+# 2. Instalar as dependências
+pip install -r requirements.txt
+
+# 3. Executar os cadernos na ordem numérica
+#    notebooks/1.0_eda_limpeza.ipynb   → exploração e preparação dos dados
+#    notebooks/2.0_modelacao_treino.ipynb → modelação, avaliação e modelo final
+```
+
+Os notebooks detetam automaticamente o ambiente (Kaggle ou local) e ajustam os caminhos de ficheiros sem necessidade de configuração manual.
 
 ---
 
 ## Referências
 
-1. IBM. (s.d.). *Telco Customer Churn* [Conjunto de dados]. Kaggle. Disponível em: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+1. IBM. (s.d.). *Telco Customer Churn* [Conjunto de dados]. Kaggle. Disponível em: <https://www.kaggle.com/datasets/blastchar/telco-customer-churn>
 
-2. Verbeke, W., Dejaeger, K., Martens, D., Hur, J., & Baesens, B. (2012). New insights into churn prediction in the telecommunication sector: A profit driven data mining approach. *European Journal of Operational Research*, 218(1), 211–229.
+2. Verbeke, W., Dejaeger, K., Martens, D., Hur, J., & Baesens, B. (2012). New insights into churn prediction in the telecommunication sector. *European Journal of Operational Research*, 218(1), 211–229.
 
 3. Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. *Journal of Artificial Intelligence Research*, 16, 321–357.
 
-4. Wirth, R., & Hipp, J. (2000). CRISP-DM: Towards a standard process model for data mining. In *Proceedings of the 4th International Conference on the Practical Applications of Knowledge Discovery and Data Mining* (pp. 29–39).
+4. Wirth, R., & Hipp, J. (2000). CRISP-DM: Towards a standard process model for data mining. *Proceedings of the 4th International Conference on Knowledge Discovery and Data Mining* (pp. 29–39).
 
 5. Melo, D. (2026). *Metodologia CRISP-DM* [Materiais de apoio]. ISCAC — Coimbra Business School.
 
@@ -193,4 +233,4 @@ A análise revelou que os principais fatores de risco são o **tipo de contrato 
 
 ---
 
-*Última atualização: 23/04/2026 
+Última atualização: 08/05/2026
