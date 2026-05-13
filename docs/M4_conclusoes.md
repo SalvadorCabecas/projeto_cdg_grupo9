@@ -17,7 +17,7 @@ A resposta é sim. O modelo construído, uma Regressão Logística com limiar de
 
 Antes deste modelo, a empresa ou tratava todos os clientes da mesma forma (sem priorização), ou tentava adivinhar quem estava em risco com base na experiência empírica. Agora tem um sistema que, ao analisar o perfil de cada cliente, quanto tempo tem de contrato, quantos serviços subscreveu, qual o tipo de contrato e serviço de internet, atribui automaticamente uma probabilidade de abandono.
 
-Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação: são os que combinam os fatores mais associados ao abandono — contrato mensal, serviço de fibra ótica, poucos serviços adicionais e menos de 12 meses de contrato. Neste grupo de risco máximo, 70 em cada 100 clientes efetivamente saem.
+Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação, são os que combinam os fatores mais associados ao abandono: contrato mensal, serviço de fibra ótica, poucos serviços adicionais e menos de 12 meses de contrato. Neste grupo de risco máximo, 70 em cada 100 clientes efetivamente saem.
 
 ### Valor para o Negócio
 
@@ -84,8 +84,8 @@ O principal obstáculo de desempenho é o distribution shift introduzido pelo SM
 
 As variáveis com maior potencial de melhoria são as que atualmente não existem no conjunto de dados:
 
-- *Histórico de reclamações:* número de contactos com suporte, tempo médio de resolução, NPS. Clientes insatisfeitos com o suporte têm risco muito superior — o coeficiente positivo de TechSupport_Yes no modelo atual é um indicador indireto desta fricção.
-- *Dados longitudinais:* transformar o dataset num painel com registos mensais por cliente permitiria detetar mudanças de padrão — um cliente que reduziu súbitamente o consumo de serviços ou aumentou as chamadas ao suporte nos últimos 3 meses.
+- *Histórico de reclamações:* número de contactos com suporte, tempo médio de resolução, NPS. Clientes insatisfeitos com o suporte têm risco muito superior, o coeficiente positivo de TechSupport_Yes no modelo atual é um indicador indireto desta fricção.
+- *Dados longitudinais:* transformar o dataset num painel com registos mensais por cliente permitiria detetar mudanças de padrão, um cliente que reduziu súbitamente o consumo de serviços ou aumentou as chamadas ao suporte nos últimos 3 meses.
 - *Dados de mercado:* informação sobre campanhas promocionais ativas de operadores concorrentes, que são frequentemente o gatilho imediato do abandono.
 
 ### 3. Deployment — Da Previsão à Ação em Produção
@@ -93,7 +93,7 @@ As variáveis com maior potencial de melhoria são as que atualmente não existe
 O modelo atual é um protótipo académico. Para ser utilizável em contexto real, precisaria de:
 
 - *API REST de scoring:* encapsular o modelo num serviço que receba o perfil de um cliente e devolva em tempo real a probabilidade de abandono e o RiskScore. Tecnologias candidatas: FastAPI (Python) com deployment em AWS Lambda ou Azure Functions.
-- *Dashboard de monitorização (Streamlit):* interface para a equipa de retenção visualizar os clientes de maior risco, filtrar por segmento e registar as ações tomadas — incluindo a lista dos top-N clientes em risco, o seu RiskScore, LTV e probabilidade prevista.
+- *Dashboard de monitorização (Streamlit):* interface para a equipa de retenção visualizar os clientes de maior risco, filtrar por segmento e registar as ações tomadas, incluindo a lista dos top-N clientes em risco, o seu RiskScore, LTV e probabilidade prevista.
 - *Sistema de reentrenamento (*retraining):* mecanismo para registar os resultados das campanhas de retenção e usar esses dados para reentrenar o modelo periodicamente, evitando a degradação de desempenho ao longo do tempo (*concept drift).
 
 ---
