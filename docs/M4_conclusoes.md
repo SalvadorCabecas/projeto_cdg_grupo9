@@ -38,19 +38,19 @@ Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação:
 
 *Ausência de variáveis comportamentais:* O modelo não tem acesso a informação sobre interações do cliente com o suporte (número de reclamações, tempo de resolução), nem sobre a qualidade percebida do serviço ou ofertas de concorrentes. Estas variáveis são frequentemente decisivas para o abandono e a sua ausência limita o poder preditivo máximo alcançável.
 
-*Dados transversais:* O conjunto de dados é uma fotografia de um único instante. Um modelo longitudinal — que analisasse a evolução do comportamento do cliente ao longo do tempo — teria potencialmente mais poder preditivo, especialmente para detetar mudanças súbitas de padrão.
+*Dados transversais:* O conjunto de dados é uma fotografia de um único instante. Um modelo longitudinal, que analisasse a evolução do comportamento do cliente ao longo do tempo, teria potencialmente mais poder preditivo, especialmente para detetar mudanças súbitas de padrão.
 
 *Sobre o LTV_Estatico:* O LTV_Estatico criado como MonthlyCharges × tenure é matematicamente equivalente à variável original TotalCharges, com correlação perfeita r=1.000. A criação desta variável melhorou a semântica e resolveu o problema de tipagem da variável original, mas não acrescentou informação preditiva nova ao modelo.
 
 ### Limitações do Modelo
 
-*Relações lineares apenas:* A Regressão Logística assume que a relação entre cada variável e a probabilidade de abandono é linear após transformação logística. Padrões não-lineares complexos não são capturados — este é o principal motivo pelo qual o objetivo de F1-Score ≥ 0.75 não foi atingido no conjunto de teste real (resultado: 0.61).
+*Relações lineares apenas:* A Regressão Logística assume que a relação entre cada variável e a probabilidade de abandono é linear após transformação logística. Padrões não-lineares complexos não são capturados, este é o principal motivo pelo qual o objetivo de F1-Score ≥ 0.75 não foi atingido no conjunto de teste real (resultado: 0.61).
 
 **Distribution shift:** O modelo foi treinado com dados artificialmente balanceados pelo SMOTE (50% abandono / 50% retenção), mas o mundo real tem 26.5% de abandono. Esta discrepância estrutural explica porque o desempenho em validação cruzada (~0.85) é substancialmente superior ao desempenho no teste real (0.61). Nenhum dos 8 algoritmos testados conseguiu superar este teto.
 
 ### Contextos de Falha
 
-O modelo falha sistematicamente num segmento específico: *clientes de longa data com contrato mensal e LTV elevado.* Os 72 clientes não detetados têm em média 36 meses de contrato e ~2 968€ de valor gerado — o triplo dos churners detetados. O modelo interpreta a sua antiguidade como sinal de fidelidade e atribui-lhes uma probabilidade de abandono de apenas 18% (abaixo do limiar de 31%). Saem por razões que as variáveis disponíveis não conseguem capturar: uma oferta mais atrativa de um concorrente, uma mudança de circunstâncias pessoais, ou uma degradação gradual da qualidade percebida do serviço.
+O modelo falha sistematicamente num segmento específico: *clientes de longa data com contrato mensal e LTV elevado.* Os 72 clientes não detetados têm em média 36 meses de contrato e ~2 968€ de valor gerado, o triplo dos churners detetados. O modelo interpreta a sua antiguidade como sinal de fidelidade e atribui-lhes uma probabilidade de abandono de apenas 18% (abaixo do limiar de 31%). Saem por razões que as variáveis disponíveis não conseguem capturar: uma oferta mais atrativa de um concorrente, uma mudança de circunstâncias pessoais, ou uma degradação gradual da qualidade percebida do serviço.
 
 ---
 
@@ -62,7 +62,7 @@ O conjunto de dados utilizado é público e totalmente anonimizado: o customerID
 
 ### Transparência e Explicabilidade
 
-A Regressão Logística é um dos modelos mais transparentes disponíveis: cada decisão é explicável através dos seus coeficientes. Não há caixa negra — é possível mostrar a qualquer cliente ou auditor exatamente quais as variáveis que contribuíram para a classificação e com que peso. O RiskScore composto é igualmente explicável: o cliente pode verificar os 3 critérios que o compõem (tipo de contrato, tipo de internet, antiguidade) e compreender porque foi sinalizado.
+A Regressão Logística é um dos modelos mais transparentes disponíveis: cada decisão é explicável através dos seus coeficientes. Não há caixa negra, é possível mostrar a qualquer cliente ou auditor exatamente quais as variáveis que contribuíram para a classificação e com que peso. O RiskScore composto é igualmente explicável: o cliente pode verificar os 3 critérios que o compõem (tipo de contrato, tipo de internet, antiguidade) e compreender porque foi sinalizado.
 
 ### Viés Potencial
 
