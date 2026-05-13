@@ -11,11 +11,11 @@
 
 O projeto partiu de uma pergunta de negócio concreta: *é possível identificar, com antecedência, quais os clientes de uma operadora de telecomunicações que vão cancelar o contrato?*
 
-A resposta é sim. O modelo construído — uma Regressão Logística com limiar de decisão ajustado — consegue identificar *8 em cada 10 clientes* que efetivamente vão abandonar o serviço, antes de esse abandono acontecer. Isto dá à empresa uma janela de intervenção: contactar o cliente, oferecer um incentivo ou resolver um problema antes que a decisão de sair seja irreversível.
+A resposta é sim. O modelo construído, uma Regressão Logística com limiar de decisão ajustado, consegue identificar *8 em cada 10 clientes* que efetivamente vão abandonar o serviço, antes de esse abandono acontecer. Isto dá à empresa uma janela de intervenção: contactar o cliente, oferecer um incentivo ou resolver um problema antes que a decisão de sair seja irreversível.
 
 ### Interpretação dos Resultados em Palavras Simples
 
-Antes deste modelo, a empresa ou tratava todos os clientes da mesma forma (sem priorização), ou tentava adivinhar quem estava em risco com base na experiência empírica. Agora tem um sistema que, ao analisar o perfil de cada cliente - quanto tempo tem de contrato, quantos serviços subscreveu, qual o tipo de contrato e serviço de internet — atribui automaticamente uma probabilidade de abandono.
+Antes deste modelo, a empresa ou tratava todos os clientes da mesma forma (sem priorização), ou tentava adivinhar quem estava em risco com base na experiência empírica. Agora tem um sistema que, ao analisar o perfil de cada cliente, quanto tempo tem de contrato, quantos serviços subscreveu, qual o tipo de contrato e serviço de internet, atribui automaticamente uma probabilidade de abandono.
 
 Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação: são os que combinam os fatores mais associados ao abandono — contrato mensal, serviço de fibra ótica, poucos serviços adicionais e menos de 12 meses de contrato. Neste grupo de risco máximo, 70 em cada 100 clientes efetivamente saem.
 
