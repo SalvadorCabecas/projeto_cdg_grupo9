@@ -70,7 +70,7 @@ A Regressão Logística é um dos modelos mais transparentes disponíveis: cada 
 
 *Viés de seleção temporal:* O dataset não indica o período a que se refere. Se os dados foram recolhidos num período atípico (crise, campanha de concorrente, mudança regulatória), os padrões capturados podem não ser representativos do comportamento normal.
 
-*Risco de uso discriminatório:* Um modelo de churn não deve ser utilizado para negar serviços, aplicar preços diferenciados não autorizados ou penalizar clientes identificados como "em risco". O seu propósito legítimo é a retenção proativa — oferecer mais valor aos clientes em risco, não penalizá-los.
+*Risco de uso discriminatório:* Um modelo de churn não deve ser utilizado para negar serviços, aplicar preços diferenciados não autorizados ou penalizar clientes identificados como "em risco". O seu propósito legítimo é a retenção proativa, oferecer mais valor aos clientes em risco, não penalizá-los.
 
 ---
 
