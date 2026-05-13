@@ -15,7 +15,7 @@ A resposta é sim. O modelo construído — uma Regressão Logística com limiar
 
 ### Interpretação dos Resultados em Palavras Simples
 
-Antes deste modelo, a empresa ou tratava todos os clientes da mesma forma (sem priorização), ou tentava adivinhar quem estava em risco com base na experiência empírica. Agora tem um sistema que, ao analisar o perfil de cada cliente — quanto tempo tem de contrato, quantos serviços subscreveu, qual o tipo de contrato e serviço de internet — atribui automaticamente uma probabilidade de abandono.
+Antes deste modelo, a empresa ou tratava todos os clientes da mesma forma (sem priorização), ou tentava adivinhar quem estava em risco com base na experiência empírica. Agora tem um sistema que, ao analisar o perfil de cada cliente - quanto tempo tem de contrato, quantos serviços subscreveu, qual o tipo de contrato e serviço de internet — atribui automaticamente uma probabilidade de abandono.
 
 Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação: são os que combinam os fatores mais associados ao abandono — contrato mensal, serviço de fibra ótica, poucos serviços adicionais e menos de 12 meses de contrato. Neste grupo de risco máximo, 70 em cada 100 clientes efetivamente saem.
 
