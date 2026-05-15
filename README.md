@@ -6,7 +6,7 @@
 
 ## Resumo Executivo
 
-Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clientes** de uma operadora de telecomunicações que estão prestes a cancelar o contrato ,antes que estes saiam. Com base no perfil contratual e de serviços de 7043 clientes reais, o modelo permite à empresa focar as campanhas de retenção nos clientes de maior risco, evitando perdas de receita de forma eficiente e dirigida. O principal fator de proteção descoberto é a subscrição de múltiplos serviços: cada serviço adicional cria uma barreira de saída que reduz significativamente a probabilidade de abandono.
+Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clientes** de uma operadora de telecomunicações que estão prestes a cancelar o contrato, antes que estes saiam. Com base no perfil contratual e de serviços de 7043 clientes reais, o modelo permite à empresa focar as campanhas de retenção nos clientes de maior risco, evitando perdas de receita de forma eficiente e dirigida. O principal fator de proteção descoberto é a subscrição de múltiplos serviços: cada serviço adicional cria uma barreira de saída que reduz significativamente a probabilidade de abandono.
 
 ---
 
@@ -24,11 +24,11 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 | O que o modelo faz | Resultado |
 | :--- | :--- |
 | Identifica clientes em risco de abandono | **302 em cada 374** clientes que vão sair são detetados (80.7%) |
-| Taxa de deteção (Recall) | **8 em cada 10** clientes em risco de abandono reais identificados antes de saírem |
+| Taxa de deteção (*Recall*) | **8 em cada 10** clientes em risco de abandono identificados antes de saírem |
 | Poder discriminativo (AUC-ROC) | Se escolhermos dois clientes ao acaso — um que vai sair e outro que vai ficar — o modelo distingue-os corretamente **83% das vezes** |
-| Principal fator de risco | Contrato mensal + Fibra ótica + < 12 meses → **70% de probabilidade de abandono** |
+| Principal fator de risco | Contrato mensal + Fibra ótica + menos de 12 meses → **70% de probabilidade de abandono** |
 | Principal fator de proteção | Cada serviço adicional subscrito **reduz significativamente** o risco de saída |
-| Clientes de alto risco não detetados | 72 clientes com LTV médio de **2 968€** — monitorização paralela recomendada |
+| Clientes de alto risco não detetados | 72 clientes com valor acumulado (*LTV*) médio de **2 968€** — monitorização paralela recomendada |
 
 ---
 
@@ -39,6 +39,8 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 | Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
 | Caderno de exploração e preparação (M2) | [`notebooks/1.0_eda_limpeza.ipynb`](notebooks/1.0_eda_limpeza.ipynb) |
 | Caderno de modelação e treino (M3) | [`notebooks/2.0_modelacao_treino.ipynb`](notebooks/2.0_modelacao_treino.ipynb) |
+
+---
 
 ## Navegação Rápida
 
@@ -68,8 +70,8 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 ```
 projeto_cdg_grupo9/
 ├── data/
-│   ├── raw/                  # Dataset original IBM/Kaggle
-│   └── processed/            # Dataset processado (7043 × 24 colunas)
+│   ├── raw/                  # Conjunto de dados original IBM/Kaggle
+│   └── processed/            # Conjunto de dados processado (7043 × 24 colunas)
 ├── docs/
 │   ├── M1_iniciacao.md       # Business Understanding
 │   ├── M2_exploracao.md      # Data Preparation
@@ -102,9 +104,9 @@ Construir um modelo de classificação supervisionada para prever o abandono de 
 1. Quais as variáveis com maior associação estatística com o abandono?
 2. Existe um limiar de antiguidade abaixo do qual o risco é substancialmente superior?
 3. A combinação de contrato mensal com ausência de suporte técnico aumenta o risco?
-4. Um índice de risco composto consegue estratificar clientes com taxa de abandono > 60% no nível máximo?
+4. Um índice de risco composto consegue estratificar clientes com taxa de abandono superior a 60% no nível máximo?
 5. As novas variáveis criadas aumentam o poder preditivo do modelo?
-6. É possível atingir Recall ≥ 0.80 com balanceamento de classes e ajuste do limiar?
+6. É possível atingir *Recall* ≥ 0.80 com balanceamento de classes e ajuste do limiar de decisão?
 
 ### Observações Iniciais ao Conjunto de Dados
 
@@ -124,16 +126,16 @@ Detalhes completos em [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md).
 
 - **Risco temporal:** clientes nos primeiros 12 meses têm taxa de abandono de **47.4%** — 5× superior à dos clientes fidelizados.
 - **Tipo de contrato:** contratos mensais atingem **~42% de abandono**, contra menos de 5% nos anuais.
-- **Índice de risco:** `RiskScore` nível máximo → **70.2% de abandono** (Q4 validada ✅).
+- **Índice de risco:** `RiskScore` nível máximo → **70.2% de abandono** (questão de investigação 4 validada ✅).
 - **Fidelização por serviços:** 8 serviços subscritos → apenas **5.3% de abandono**.
 
 ### Atributos Criados
 
 | Atributo | O que mede |
 | :--- | :--- |
-| `TenureCohort` | Fase do ciclo de vida do cliente (Early / Growing / Mature / Loyal) |
+| `TenureCohort` | Fase do ciclo de vida do cliente (*Early* / *Growing* / *Mature* / *Loyal*) |
 | `TotalServices` | Número de serviços subscritos — indicador de fidelização comportamental |
-| `LTV_Estatico` | Valor acumulado estimado (`MonthlyCharges × tenure`) |
+| `LTV_Estatico` | Valor de vida acumulado estimado (`MonthlyCharges × tenure`) |
 | `ChargesPerService` | Rácio custo/serviço — indicador de relação custo-benefício desfavorável |
 | `RiskScore` | Índice de risco composto (0–6): contrato + internet + antiguidade |
 
@@ -162,11 +164,11 @@ Detalhes em [`docs/M2_exploracao.md`](docs/M2_exploracao.md).
 
 | Métrica técnica | Significado prático |
 | :--- | :--- |
-| Recall = **0.8075** ✅ | O modelo deteta **8 em cada 10** clientes que vão abandonar |
-| AUC-ROC = **0.8340** | Distingue corretamente clientes em risco de abandono de não-clientes em risco de abandono em **83%** dos casos |
-| Clientes identificados: **302 / 374** | De 374 clientes que foram sair, o modelo sinalizou **302 com antecedência** |
-| Falsos negativos: **72** | 72 clientes saíram sem serem detetados — LTV médio de **2 968€** |
-| Falsos positivos: **310** | 310 campanhas de retenção desnecessárias — custo aceitável face ao risco de não agir |
+| *Recall* = **0.8075** ✅ | O modelo deteta **8 em cada 10** clientes que vão abandonar |
+| AUC-ROC = **0.8340** | Distingue corretamente clientes em risco de abandono em **83%** dos casos |
+| Clientes identificados: **302 / 374** | De 374 clientes que iam sair, o modelo sinalizou **302 com antecedência** |
+| Falsos negativos: **72** | 72 clientes saíram sem serem detetados — valor de vida (*LTV*) médio de **2 968€** |
+| Falsos positivos: **310** | Cada descida de 0.01 no limiar troca precisão por sensibilidade; a decisão sobre o equilíbrio adequado depende do custo real de uma campanha de retenção desnecessária, que varia por empresa |
 
 Detalhes técnicos completos em [`docs/M3_modelacao.md`](docs/M3_modelacao.md).
 
@@ -176,14 +178,14 @@ Detalhes técnicos completos em [`docs/M3_modelacao.md`](docs/M3_modelacao.md).
 
 ### Resposta ao Problema
 
-O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80.7%), dando à empresa uma janela de intervenção antes que a decisão de sair seja irreversível. O objetivo de Recall ≥ 0.80 foi atingido — o critério de negócio mais relevante, que minimiza os clientes em risco não detetados.
+O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80.7%), dando à empresa uma janela de intervenção antes que a decisão de sair seja irreversível. O objetivo de *Recall* ≥ 0.80 foi atingido — o critério de negócio mais relevante, que minimiza os clientes em risco não detetados.
 
 ### Recomendações
 
 1. **Intervir nos primeiros 12 meses:** taxa de abandono de 47.4% nesta fase — 5× superior à dos clientes fidelizados. Programas de acolhimento inicial e incentivos à subscrição de serviços adicionais têm o maior retorno.
-2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente TotalServices = −7.281). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
-3. **Vigilância paralela de alto LTV:** os 72 clientes em risco de abandono não detetados têm LTV médio de 2 968€. Recomenda-se monitorização por critérios diretos: tenure alto + contrato mensal + sem renovação recente.
-4. **Ajuste dinâmico do limiar:** o threshold de 0.31 maximiza o Recall. Em campanhas de custo elevado, deve ser reajustado para equilibrar Precisão e Recall.
+2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente `TotalServices` = −7.281). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
+3. **Vigilância paralela de alto valor:** os 72 clientes em risco de abandono não detetados têm valor de vida (*LTV*) médio de 2 968€. Recomenda-se monitorização por critérios diretos: antiguidade elevada + contrato mensal + sem renovação recente.
+4. **Ajuste dinâmico do limiar de decisão:** o limiar de 0.31 maximiza o *Recall*. Em campanhas de custo elevado, deve ser reajustado para equilibrar precisão e sensibilidade.
 
 Análise completa em [`docs/M4_conclusoes.md`](docs/M4_conclusoes.md).
 
@@ -199,11 +201,11 @@ git clone https://github.com/SalvadorCabecas/projeto_cdg_grupo9
 pip install -r requirements.txt
 
 # 3. Executar os cadernos na ordem numérica
-#    notebooks/1.0_eda_limpeza.ipynb   → exploração e preparação dos dados
-#    notebooks/2.0_modelacao_treino.ipynb → modelação, avaliação e modelo final
+#    notebooks/1.0_eda_limpeza.ipynb        — exploração e preparação dos dados
+#    notebooks/2.0_modelacao_treino.ipynb   — modelação, avaliação e modelo final
 ```
 
-Os notebooks detetam automaticamente o ambiente (Kaggle ou local) e ajustam os caminhos de ficheiros sem necessidade de configuração manual.
+Os cadernos detetam automaticamente o ambiente (Kaggle ou local) e ajustam os caminhos de ficheiros sem necessidade de configuração manual.
 
 ---
 
@@ -233,4 +235,4 @@ Os notebooks detetam automaticamente o ambiente (Kaggle ou local) e ajustam os c
 
 ---
 
-Última atualização: 08/05/2026
+Última atualização: 15/05/2026
