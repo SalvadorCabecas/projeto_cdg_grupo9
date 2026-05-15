@@ -60,11 +60,11 @@ Foram utilizados os seguintes critérios para verificar a qualidade dos dados na
 
 | Critério | Método de verificação | Conclusão |
 | :--- | :--- | :--- |
-| **Completude** | Contagem de valores nulos por coluna (`isnull().sum()`) | 11 valores em falta em `TotalCharges` (0.15%) — todos em clientes com `tenure = 0` |
+| **Completude** | Contagem de valores nulos por coluna (`isnull().sum()`) | 11 valores em falta em `TotalCharges` (0.15%), todos em clientes com `tenure = 0` |
 | **Consistência de tipos** | Verificação dos tipos de dados (`dtypes`) | `TotalCharges` estava armazenada como texto (`object`), exigindo conversão para numérico |
-| **Unicidade** | Contagem de registos duplicados (`duplicated().sum()`) | 0 registos duplicados — cada linha representa um cliente único |
-| **Validade dos domínios** | Análise estatística descritiva e verificação de valores únicos | Todos os valores dentro dos intervalos operacionais esperados — 0 valores atípicos pelo método IQR |
-| **Ética e privacidade** | Verificação da natureza dos dados | Dados públicos e totalmente anonimizados (identificador do cliente mascarado) — conformidade com o RGPD |
+| **Unicidade** | Contagem de registos duplicados (`duplicated().sum()`) | 0 registos duplicados, cada linha representa um cliente único |
+| **Validade dos domínios** | Análise estatística descritiva e verificação de valores únicos | Todos os valores dentro dos intervalos operacionais esperados, 0 valores atípicos pelo método IQR |
+| **Ética e privacidade** | Verificação da natureza dos dados | Dados públicos e totalmente anonimizados (identificador do cliente mascarado), conformidade com o RGPD |
 
 ### 5.3. Estatísticas Iniciais das Variáveis
 
@@ -157,10 +157,10 @@ Após carregamento do conjunto de dados, foram identificados os seguintes proble
 
 ## 9. Resumo dos Pontos Importantes da Fase de Iniciação
 
-- O conjunto de dados está disponível publicamente, é de qualidade suficiente para modelação e não levanta questões éticas — adequado para os objetivos do projeto.
+- O conjunto de dados está disponível publicamente, é de qualidade suficiente para modelação e não levanta questões éticas, adequado para os objetivos do projeto.
 - O desequilíbrio de classes (73.5%/26.5%) é o principal condicionante metodológico: a exatidão global não pode ser usada como métrica de avaliação, sendo o F1-Score a métrica mais adequada.
 - A variável `TotalCharges` apresentava um problema de tipagem que, sem tratamento, invalidaria qualquer análise estatística ou modelo de aprendizagem automática.
-- O conjunto de dados possui 21 variáveis cobrindo as dimensões demográfica, contratual, de serviços e financeira — diversidade suficiente para construir um modelo preditivo robusto.
+- O conjunto de dados possui 21 variáveis cobrindo as dimensões demográfica, contratual, de serviços e financeira, diversidade suficiente para construir um modelo preditivo robusto.
 - Não foram identificados registos duplicados nem valores atípicos nas variáveis numéricas, o que simplifica a fase de preparação.
 - A natureza do problema (identificar clientes em risco antes do abandono) exige um modelo com elevada taxa de deteção (Recall), sendo prioritário minimizar os falsos negativos face aos falsos positivos.
 
