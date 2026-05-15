@@ -8,7 +8,7 @@ A nossa variável alvo ***Churn*** foi analisada e apresenta o seguinte comporta
 * **Valores:** ~73.5% de retenção (0) contra **26.5% de abandono (1)**.
 * **Impacto:** Esta distribuição dita que o sucesso do modelo não será medido por *Accuracy*, mas sim por métricas que penalizem a perda de clientes, como o ***Recall*** e o *F1-Score*.
 
-> **Nota Técnica:** Um modelo "preguiçoso" que previsse sempre "Não *Churn*" atingiria 73.5% de *Accuracy*, mas falharia 100% no objetivo de retenção — confirmando que *Accuracy* é uma métrica enganadora neste contexto.
+> **Nota Técnica:** Um modelo "preguiçoso" que previsse sempre "Não *Churn*" atingiria 73.5% de *Accuracy*, mas falharia 100% no objetivo de retenção, confirmando que *Accuracy* é uma métrica enganadora neste contexto.
 
 ### 1.2. Correlações Relevantes
 Identificámos relações factuais importantes através da matriz de correlação de Pearson e da análise bivariada:
@@ -25,8 +25,8 @@ Identificámos relações factuais importantes através da matriz de correlaçã
 3. **Dependência Tecnológica:** Clientes com ***Fiber Optic*** apresentam maior rotatividade do que os de *DSL*, possivelmente pela agressividade competitiva neste segmento *premium*.
 
 ### 1.4. Comparação por Classe *Churn* (*Boxplots*)
-* **`tenure`:** Clientes que abandonam concentram-se nos primeiros meses (mediana ≈ 10 meses vs ≈ 38 meses nos retidos) — reforça o padrão de *Early Churn*.
-* **`MonthlyCharges`:** Clientes que saem pagam, em mediana, mais por mês — possivelmente associado ao segmento *Fiber Optic* (mais caro e mais volátil).
+* **`tenure`:** Clientes que abandonam concentram-se nos primeiros meses (mediana ≈ 10 meses vs ≈ 38 meses nos retidos), reforça o padrão de *Early Churn*.
+* **`MonthlyCharges`:** Clientes que saem pagam, em mediana, mais por mês, possivelmente associado ao segmento *Fiber Optic* (mais caro e mais volátil).
 * **`TotalCharges`:** Naturalmente inferior no grupo *Churn* = 1 devido ao menor tempo de permanência.
 
 ---
@@ -353,16 +353,16 @@ Identificámos pares de variáveis com correlação elevada (|r| > 0.80) que rep
 ### O que aprendemos que não sabíamos no final do M1?
 
 **1. A antiguidade (*tenure*) é o preditor mais robusto de retenção.**
-No M1 identificámos as variáveis existentes, mas não sabíamos a magnitude do efeito. A análise *KDE* e bivariada revelou que os primeiros 12 meses são uma "zona de perigo" crítica — 47.4% de *churn* na fase *Early* contra 9.5% na fase *Loyal*. Esta descoberta justifica a criação do `TenureCohort` e orienta diretamente a estratégia de retenção.
-
+No M1 identificámos as variáveis existentes, mas não sabíamos a magnitude do efeito. A análise *KDE* e bivariada revelou que os primeiros 12 meses são uma "zona de perigo" crítica, 47.4% de *churn* na fase *Early* contra 9.5% na fase *Loyal*. Esta descoberta justifica a criação do `TenureCohort` e orienta diretamente a estratégia de retenção.
+,
 **2. O tipo de contrato amplifica exponencialmente o risco.**
-Contratos mensais apresentam ~42% de *churn* face a <5% nos contratos anuais — uma diferença de 8× que não era quantificada no M1. Este insight responde à P1 e é um dos componentes centrais do `RiskScore`.
+Contratos mensais apresentam ~42% de *churn* face a <5% nos contratos anuais, uma diferença de 8× que não era quantificada no M1. Este insight responde à P1 e é um dos componentes centrais do `RiskScore`.
 
 **3. O `RiskScore` composto supera qualquer variável isolada.**
-A correlação de +0.487 com *Churn* é a mais elevada de todo o *dataset* — superior ao `tenure` (-0.35) e ao `MonthlyCharges` (+0.19). Isto confirma que a combinação de contrato + internet + antiguidade captura informação preditiva que nenhuma variável original capturava sozinha (resposta à P5).
+A correlação de +0.487 com *Churn* é a mais elevada de todo o *dataset*, superior ao `tenure` (-0.35) e ao `MonthlyCharges` (+0.19). Isto confirma que a combinação de contrato + internet + antiguidade captura informação preditiva que nenhuma variável original capturava sozinha (resposta à P5).
 
 **4. A `TotalCharges` é redundante após o *feature engineering*.**
-A correlação perfeita (r = 1.000) com o `LTV_Estatico` — que foi criado por nós — confirmou que a variável original não acrescenta informação nova. A sua remoção simplifica o modelo sem perda de poder preditivo.
+A correlação perfeita (r = 1.000) com o `LTV_Estatico`, que foi criado por nós, confirmou que a variável original não acrescenta informação nova. A sua remoção simplifica o modelo sem perda de poder preditivo.
 
 **5. O desequilíbrio de classes exige estratégia de balanceamento.**
 A distribuição 73.5%/26.5% confirma que *Accuracy* não pode ser a métrica de avaliação em M3. A decisão de usar SMOTE (no treino) e F1-Score como métrica principal decorre diretamente desta análise.
@@ -370,7 +370,7 @@ A distribuição 73.5%/26.5% confirma que *Accuracy* não pode ser a métrica de
 ### Os dados são suficientes para avançar para a modelação?
 
 **Sim.** O *dataset* final reúne as condições necessárias:
-- **Dimensão:** 7043 registos — suficiente para divisão treino/teste estratificada e validação cruzada k=5.
+- **Dimensão:** 7043 registos, suficiente para divisão treino/teste estratificada e validação cruzada k=5.
 - **Qualidade:** 0 nulos, 0 duplicados problemáticos, tipos de dados corretos.
 - **Poder preditivo:** 5 novos atributos com correlações estatisticamente significativas (p < 0.001), especialmente o `RiskScore` (+0.487) e o `ChargesPerService` (+0.393).
 - **Limitação conhecida:** O desequilíbrio de classes (~26.5% *churn*) será mitigado com SMOTE em M3, aplicado exclusivamente ao conjunto de treino.
