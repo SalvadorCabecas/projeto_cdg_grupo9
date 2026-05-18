@@ -183,7 +183,7 @@ O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80
 ### Recomendações
 
 1. **Intervir nos primeiros 12 meses:** taxa de abandono de 47.4% nesta fase, 5× superior à dos clientes fidelizados. Programas de acolhimento inicial e incentivos à subscrição de serviços adicionais têm o maior retorno.
-2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente `TotalServices` = −7.281). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
+2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente `TotalServices` = −7.219). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
 3. **Vigilância paralela de alto valor:** os 72 clientes em risco de abandono não detetados têm valor de vida (*LTV*) médio de 2 968€. Recomenda-se monitorização por critérios diretos: antiguidade elevada + contrato mensal + sem renovação recente.
 4. **Ajuste dinâmico do limiar de decisão:** o limiar de 0.31 maximiza o *Recall*. Em campanhas de custo elevado, deve ser reajustado para equilibrar precisão e sensibilidade.
 
