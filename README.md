@@ -72,7 +72,7 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 | **M1: Iniciação** | Compreensão do negócio e dos dados | 24/02/2026 | Concluído |
 | **M2: Exploração** | Análise exploratória e preparação dos dados | 24/03/2026 | Concluído |
 | **M3: Modelação** | Modelação e avaliação | 23/04/2026 | Concluído |
-| **M4: Finalização** | Comunicação e entrega | 18/05/2026 | Em curso |
+| **M4: Finalização** | Comunicação e entrega | 18/05/2026 | Concluído |
 
 ---
 
