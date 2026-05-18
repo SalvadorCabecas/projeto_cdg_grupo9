@@ -221,6 +221,8 @@ Os cadernos detetam automaticamente o ambiente (Kaggle ou local) e ajustam os ca
 
 5. Melo, D. (2026). *Metodologia CRISP-DM* [Materiais de apoio]. ISCAC, Coimbra Business School.
 
+6. Gallo, A. (2014). The value of keeping the right customers. Harvard Business Review. Disponível em: https://hbr.org/2014/10/the-value-of-keeping-the-right-customers
+
 ---
 
 ## Identificação Académica
