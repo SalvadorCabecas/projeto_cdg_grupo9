@@ -25,7 +25,7 @@ Os clientes sinalizados pelo modelo como "em risco" não são uma adivinhação:
 | :--- | :--- |
 | Priorizar campanhas de retenção nos 302 clientes identificados como em risco | Evitar a perda de receita recorrente associada a ~80% dos abandonos |
 | Intervir nos clientes nos primeiros 12 meses (taxa de abandono 47.4%) | Reduzir o abandono precoce com programas de acolhimento inicial dirigidos |
-| Incentivar a subscrição de serviços adicionais (coeficiente `TotalServices` = −7.281) | Cada serviço adicional reduz significativamente o risco de abandono |
+| Incentivar a subscrição de serviços adicionais (coeficiente `TotalServices` = −7.219) | Cada serviço adicional reduz significativamente o risco de abandono |
 | Vigilância paralela dos 72 clientes de alto valor não detetados (*LTV* médio ~2 968€) | Criar canal de monitorização dedicado ao segmento de maior valor |
 
 ### Avaliação Face aos Objetivos Iniciais
