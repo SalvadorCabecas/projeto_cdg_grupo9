@@ -10,6 +10,17 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 
 ---
 
+
+## Vídeo Pitch
+
+[![Vídeo Pitch — Churn Prediction | Grupo 9](https://img.shields.io/badge/▶_Ver_Vídeo-Pitch_5_min-red?style=for-the-badge)](https://drive.google.com/file/d/1UGqhpdktsMnBJAcZUpJF4lnCIfRS5fek/view?usp=drive_link)
+
+> Apresentação final do projeto em formato audiovisual (5 minutos).
+> Demonstração do modelo a classificar clientes em tempo real.
+
+
+---
+
 ## Equipa
 
 | Nome | Número de Aluno |
