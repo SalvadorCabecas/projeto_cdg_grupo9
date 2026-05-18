@@ -1,6 +1,6 @@
 # Construção de um Modelo Preditivo de Abandono de Clientes no Setor das Telecomunicações
 
-> Projeto académico de Ciência de Dados — construção e avaliação de um modelo de classificação supervisionada para prever o abandono de clientes de uma empresa de telecomunicações, com base nas suas características contratuais, de utilização e de faturação.
+> Projeto académico de Ciência de Dados: construção e avaliação de um modelo de classificação supervisionada para prever o abandono de clientes de uma empresa de telecomunicações, com base nas suas características contratuais, de utilização e de faturação.
 
 ---
 
@@ -25,10 +25,10 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 | :--- | :--- |
 | Identifica clientes em risco de abandono | **302 em cada 374** clientes que vão sair são detetados (80.7%) |
 | Taxa de deteção (*Recall*) | **8 em cada 10** clientes em risco de abandono identificados antes de saírem |
-| Poder discriminativo (AUC-ROC) | Se escolhermos dois clientes ao acaso — um que vai sair e outro que vai ficar — o modelo distingue-os corretamente **83% das vezes** |
+| Poder discriminativo (*AUC-ROC*) | De dois clientes escolhidos ao acaso (um que vai sair e outro que fica), o modelo distingue-os corretamente **83% das vezes** |
 | Principal fator de risco | Contrato mensal + Fibra ótica + menos de 12 meses → **70% de probabilidade de abandono** |
 | Principal fator de proteção | Cada serviço adicional subscrito **reduz significativamente** o risco de saída |
-| Clientes de alto risco não detetados | 72 clientes com valor acumulado (*LTV*) médio de **2 968€** — monitorização paralela recomendada |
+| Clientes de alto risco não detetados | 72 clientes com valor acumulado (*LTV*) médio de **2 968€** (monitorização paralela recomendada) |
 
 ---
 
@@ -36,7 +36,7 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 
 | Item | Ligação |
 | :--- | :--- |
-| Conjunto de dados | [Telco Customer Churn — IBM/Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
+| Conjunto de dados | [Telco Customer Churn (IBM/Kaggle)](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) |
 | Caderno de exploração e preparação (M2) | [`notebooks/1.0_eda_limpeza.ipynb`](notebooks/1.0_eda_limpeza.ipynb) |
 | Caderno de modelação e treino (M3) | [`notebooks/2.0_modelacao_treino.ipynb`](notebooks/2.0_modelacao_treino.ipynb) |
 
@@ -58,10 +58,10 @@ Construímos um modelo de *Machine Learning* que **identifica 8 em cada 10 clien
 
 | Fase | Foco CRISP-DM | Prazo | Estado |
 | :--- | :--- | :---: | :---: |
-| **M1 — Iniciação** | Compreensão do negócio e dos dados | 24/02/2026 | Concluído |
-| **M2 — Exploração** | Análise exploratória e preparação dos dados | 24/03/2026 | Concluído |
-| **M3 — Modelação** | Modelação e avaliação | 23/04/2026 | Concluído |
-| **M4 — Finalização** | Comunicação e entrega | 18/05/2026 | Em curso |
+| **M1: Iniciação** | Compreensão do negócio e dos dados | 24/02/2026 | Concluído |
+| **M2: Exploração** | Análise exploratória e preparação dos dados | 24/03/2026 | Concluído |
+| **M3: Modelação** | Modelação e avaliação | 23/04/2026 | Concluído |
+| **M4: Finalização** | Comunicação e entrega | 18/05/2026 | Em curso |
 
 ---
 
@@ -73,15 +73,15 @@ projeto_cdg_grupo9/
 │   ├── raw/                  # Conjunto de dados original IBM/Kaggle
 │   └── processed/            # Conjunto de dados processado (7043 × 24 colunas)
 ├── docs/
-│   ├── M1_iniciacao.md       # Business Understanding
-│   ├── M2_exploracao.md      # Data Preparation
-│   ├── M3_modelacao.md       # Modelling & Evaluation
-│   └── M4_conclusoes.md      # Deployment & Communication
+│   ├── M1_iniciacao.md       # Compreensão do negócio
+│   ├── M2_exploracao.md      # Preparação dos dados
+│   ├── M3_modelacao.md       # Modelação e avaliação
+│   └── M4_conclusoes.md      # Conclusão e entrega de valor
 ├── notebooks/
 │   ├── 1.0_eda_limpeza.ipynb       # Exploração e limpeza (M2)
 │   └── 2.0_modelacao_treino.ipynb  # Modelação e treino (M3)
 ├── reports/figures/          # Figuras exportadas (PNG)
-├── src/                      # Reservado — não utilizado neste projeto
+├── src/                      # Reservado, não utilizado neste projeto
 └── requirements.txt          # Dependências Python
 ```
 
@@ -97,7 +97,7 @@ Este projeto utiliza o conjunto de dados público *Telco Customer Churn* (IBM/Ka
 
 ### Objetivo SMART
 
-Construir um modelo de classificação supervisionada para prever o abandono de clientes, atingindo um F1-Score igual ou superior a 0.75 na classe positiva (abandono = 1) em validação cruzada estratificada com k=5, utilizando o conjunto de dados *Telco Customer Churn* da IBM, até ao dia 23/04/2026.
+Construir um modelo de classificação supervisionada para prever o abandono de clientes, atingindo um F1 igual ou superior a 0.75 na classe positiva (abandono = 1) em validação cruzada estratificada com k=5, utilizando o conjunto de dados *Telco Customer Churn* da IBM, até ao dia 23/04/2026.
 
 ### Questões de Investigação
 
@@ -112,9 +112,9 @@ Construir um modelo de classificação supervisionada para prever o abandono de 
 
 - **Dimensão:** 7043 registos e 21 variáveis; variável alvo `Churn` com desequilíbrio de classes (~73.5% sem abandono / ~26.5% com abandono).
 - **Problema de tipagem:** a variável `TotalCharges` estava armazenada como texto devido à presença de espaços em branco em 11 registos com `tenure = 0`, exigindo conversão e imputação.
-- **Distribuição temporal:** a variável `tenure` apresenta uma distribuição bimodal — concentração de clientes novos (primeiros meses) e clientes com 6 anos de contrato, sugerindo um padrão de abandono precoce.
+- **Distribuição temporal:** a variável `tenure` apresenta uma distribuição bimodal, com concentração de clientes novos (primeiros meses) e clientes com 6 anos de contrato, sugerindo um padrão de abandono precoce.
 - **Ausência de valores nulos reais e duplicados** nas restantes variáveis após auditoria inicial.
-- **Desequilíbrio de classes:** a proporção de 26.5% de abandono determinou a escolha do F1-Score como métrica principal em detrimento da exatidão global.
+- **Desequilíbrio de classes:** a proporção de 26.5% de abandono determinou a escolha do F1 como métrica principal em detrimento da exatidão global.
 
 Detalhes completos em [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md).
 
@@ -124,7 +124,7 @@ Detalhes completos em [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md).
 
 ### Principais Descobertas
 
-- **Risco temporal:** clientes nos primeiros 12 meses têm taxa de abandono de **47.4%** — 5× superior à dos clientes fidelizados.
+- **Risco temporal:** clientes nos primeiros 12 meses têm taxa de abandono de **47.4%**, 5× superior à dos clientes fidelizados.
 - **Tipo de contrato:** contratos mensais atingem **~42% de abandono**, contra menos de 5% nos anuais.
 - **Índice de risco:** `RiskScore` nível máximo → **70.2% de abandono** (questão de investigação 4 validada ✅).
 - **Fidelização por serviços:** 8 serviços subscritos → apenas **5.3% de abandono**.
@@ -134,10 +134,10 @@ Detalhes completos em [`docs/M1_iniciacao.md`](docs/M1_iniciacao.md).
 | Atributo | O que mede |
 | :--- | :--- |
 | `TenureCohort` | Fase do ciclo de vida do cliente (*Early* / *Growing* / *Mature* / *Loyal*) |
-| `TotalServices` | Número de serviços subscritos — indicador de fidelização comportamental |
+| `TotalServices` | Número de serviços subscritos (indicador de fidelização comportamental) |
 | `LTV_Estatico` | Valor de vida acumulado estimado (`MonthlyCharges × tenure`) |
-| `ChargesPerService` | Rácio custo/serviço — indicador de relação custo-benefício desfavorável |
-| `RiskScore` | Índice de risco composto (0–6): contrato + internet + antiguidade |
+| `ChargesPerService` | Rácio custo/serviço (indicador de relação custo-benefício desfavorável) |
+| `RiskScore` | Índice de risco composto (0 a 6): contrato + internet + antiguidade |
 
 Detalhes em [`docs/M2_exploracao.md`](docs/M2_exploracao.md).
 
@@ -158,16 +158,16 @@ Detalhes em [`docs/M2_exploracao.md`](docs/M2_exploracao.md).
 | KNN | 0.8759 | 0.5387 | 0.7687 |
 | Árvore de Decisão | 0.9983 | 0.4756 | 0.6413 |
 
-### Modelo Final — Resultados em Linguagem de Negócio
+### Modelo Final: Resultados em Linguagem de Negócio
 
 **Regressão Logística com limiar de decisão ajustado para 0.31.**
 
 | Métrica técnica | Significado prático |
 | :--- | :--- |
 | *Recall* = **0.8075** ✅ | O modelo deteta **8 em cada 10** clientes que vão abandonar |
-| AUC-ROC = **0.8340** | Distingue corretamente clientes em risco de abandono em **83%** dos casos |
+| *AUC-ROC* = **0.8340** | Distingue corretamente clientes em risco de abandono em **83%** dos casos |
 | Clientes identificados: **302 / 374** | De 374 clientes que iam sair, o modelo sinalizou **302 com antecedência** |
-| Falsos negativos: **72** | 72 clientes saíram sem serem detetados — valor de vida (*LTV*) médio de **2 968€** |
+| Falsos negativos: **72** | 72 clientes saíram sem serem detetados, com valor de vida (*LTV*) médio de **2 968€** |
 | Falsos positivos: **310** | Cada descida de 0.01 no limiar troca precisão por sensibilidade; a decisão sobre o equilíbrio adequado depende do custo real de uma campanha de retenção desnecessária, que varia por empresa |
 
 Detalhes técnicos completos em [`docs/M3_modelacao.md`](docs/M3_modelacao.md).
@@ -178,11 +178,11 @@ Detalhes técnicos completos em [`docs/M3_modelacao.md`](docs/M3_modelacao.md).
 
 ### Resposta ao Problema
 
-O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80.7%), dando à empresa uma janela de intervenção antes que a decisão de sair seja irreversível. O objetivo de *Recall* ≥ 0.80 foi atingido — o critério de negócio mais relevante, que minimiza os clientes em risco não detetados.
+O modelo identifica **302 dos 374 clientes** que efetivamente vão abandonar (80.7%), dando à empresa uma janela de intervenção antes que a decisão de sair seja irreversível. O objetivo de *Recall* ≥ 0.80 foi atingido, o critério de negócio mais relevante para minimizar os clientes em risco não detetados.
 
 ### Recomendações
 
-1. **Intervir nos primeiros 12 meses:** taxa de abandono de 47.4% nesta fase — 5× superior à dos clientes fidelizados. Programas de acolhimento inicial e incentivos à subscrição de serviços adicionais têm o maior retorno.
+1. **Intervir nos primeiros 12 meses:** taxa de abandono de 47.4% nesta fase, 5× superior à dos clientes fidelizados. Programas de acolhimento inicial e incentivos à subscrição de serviços adicionais têm o maior retorno.
 2. **Estratégia de pacotes combinados:** cada serviço adicional cria uma barreira de saída (coeficiente `TotalServices` = −7.281). Ofertas agrupadas com desconto são a intervenção com maior impacto comprovado.
 3. **Vigilância paralela de alto valor:** os 72 clientes em risco de abandono não detetados têm valor de vida (*LTV*) médio de 2 968€. Recomenda-se monitorização por critérios diretos: antiguidade elevada + contrato mensal + sem renovação recente.
 4. **Ajuste dinâmico do limiar de decisão:** o limiar de 0.31 maximiza o *Recall*. Em campanhas de custo elevado, deve ser reajustado para equilibrar precisão e sensibilidade.
@@ -201,8 +201,8 @@ git clone https://github.com/SalvadorCabecas/projeto_cdg_grupo9
 pip install -r requirements.txt
 
 # 3. Executar os cadernos na ordem numérica
-#    notebooks/1.0_eda_limpeza.ipynb        — exploração e preparação dos dados
-#    notebooks/2.0_modelacao_treino.ipynb   — modelação, avaliação e modelo final
+#    notebooks/1.0_eda_limpeza.ipynb        : exploração e preparação dos dados
+#    notebooks/2.0_modelacao_treino.ipynb   : modelação, avaliação e modelo final
 ```
 
 Os cadernos detetam automaticamente o ambiente (Kaggle ou local) e ajustam os caminhos de ficheiros sem necessidade de configuração manual.
@@ -219,7 +219,7 @@ Os cadernos detetam automaticamente o ambiente (Kaggle ou local) e ajustam os ca
 
 4. Wirth, R., & Hipp, J. (2000). CRISP-DM: Towards a standard process model for data mining. *Proceedings of the 4th International Conference on Knowledge Discovery and Data Mining* (pp. 29–39).
 
-5. Melo, D. (2026). *Metodologia CRISP-DM* [Materiais de apoio]. ISCAC — Coimbra Business School.
+5. Melo, D. (2026). *Metodologia CRISP-DM* [Materiais de apoio]. ISCAC, Coimbra Business School.
 
 ---
 
@@ -235,4 +235,4 @@ Os cadernos detetam automaticamente o ambiente (Kaggle ou local) e ajustam os ca
 
 ---
 
-Última atualização: 15/05/2026
+Última atualização: 18/05/2026
